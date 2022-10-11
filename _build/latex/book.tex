@@ -66,7 +66,6 @@
 % Set up styles of URL: it should be placed after hyperref.
 \urlstyle{same}
 
-\addto\captionsenglish{\renewcommand{\contentsname}{Quantum Mechanics in Periodic Potentials}}
 
 \usepackage{sphinxmessages}
 
@@ -106,29 +105,87 @@ I am collecting notes/notebooks used in the QSE 200 (Fall 2022) Sections on this
 \begin{itemize}
 \item {} 
 \sphinxAtStartPar
-Quantum Mechanics in Periodic Potentials
+{\hyperref[\detokenize{Section4_v2::doc}]{\sphinxcrossref{Section 4: Discrete Variable Representation}}}
 
+\item {} 
+\sphinxAtStartPar
+{\hyperref[\detokenize{Section6_v2::doc}]{\sphinxcrossref{Section 6: An Intuitive Picture of Band Structure}}}
+
+\end{itemize}
+
+
+\chapter{Section 4: Discrete Variable Representation}
+\label{\detokenize{Section4_v2:section-4-discrete-variable-representation}}\label{\detokenize{Section4_v2::doc}}
+\sphinxAtStartPar
+Last week, we studied the connection between position and momentum space using Fourier transforms. We learned that we can work in either “position space” with basis states \$\textbackslash{}langle x’ | x \textbackslash{}rangle = \textbackslash{}delta(x\sphinxhyphen{}x’)\$, or in “momentum space” with basis states \$\textbackslash{}langle k’ | k \textbackslash{}rangle = \textbackslash{}delta(k\sphinxhyphen{}k’)\$. We also showed that these kets are connected by the relation
+\label{equation:Section4_v2:3e903f6f-728b-4df2-9358-1b2011c57a21}\begin{equation}
+\langle k | x \rangle = (2\pi)^{-1/2} e^{-i k x}.
+\end{equation}
+\sphinxAtStartPar
+In this week’s section, we will use what we learned to build and solve matrix representations of the Hamiltonian for arbitrary 1D potentials using a method called the “Discerete Variable Representation” (DVR). This is a method that is widely used in physics and chemistry to solve for the states and energies of potential energy surfaces needed to describe molecular vibrations, chemical reactions, and beyond.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Learning Goals:}
+After this Section you should be able to:
 \begin{itemize}
 \item {} 
 \sphinxAtStartPar
-{\hyperref[\detokenize{Section6::doc}]{\sphinxcrossref{An Intuitive Picture of Band Structure}}}
+Understand when it is more natural to work in a “position” vs. “momentum” basis
 
 \item {} 
 \sphinxAtStartPar
-{\hyperref[\detokenize{translation-operator::doc}]{\sphinxcrossref{Translation Operators and Bloch’s Theorem}}}
+Use the sinc basis to express the Hamiltonian for an arbitrary 1D potential
 
 \item {} 
 \sphinxAtStartPar
-{\hyperref[\detokenize{kronig-penney::doc}]{\sphinxcrossref{The Kronig\sphinxhyphen{}Penney Model}}}
+Find the eigenvalues and eigenvectors of Hamiltonians for arbtirary potentials using the discrete variable representation
 
 \end{itemize}
-\end{itemize}
 
 
-\chapter{An Intuitive Picture of Band Structure}
-\label{\detokenize{Section6:an-intuitive-picture-of-band-structure}}\label{\detokenize{Section6:test-label}}\label{\detokenize{Section6::doc}}
+\section{Motivating the Sinc\sphinxhyphen{}Basis DVR}
+\label{\detokenize{Section4_v2:motivating-the-sinc-basis-dvr}}
 \sphinxAtStartPar
-I am following “Calculation of band structures by a discrete variable representation based on Bloch functions” (View online: https://doi.org/10.1119/1.1994858) to make a DVR method for periodic potentials.
+As with previous problems, we’ll first introduce a grid of \$N\$ equally spaced points on the domain \${[}x\_\textbackslash{}text\{min\}, x\_\textbackslash{}text\{max\}{]}\$. The points can be specified as
+\label{equation:Section4_v2:616d9bf9-aae3-43d1-8b40-938f6620901f}\begin{equation}
+x_j = x_\text{min} + (j-1) \Delta x
+\end{equation}
+\sphinxAtStartPar
+where
+\label{equation:Section4_v2:57a6a3a4-9bae-4237-bedf-7fdc1da1b650}\begin{equation}
+\Delta x = \frac{x_\text{max} - x_\text{min}}{N-1}.
+\end{equation}
+\sphinxAtStartPar
+Next, we want to set up some basis \$\{|\textbackslash{}phi\_i\textbackslash{}rangle\}\$ that allows us to express our wavefunction as a superposition of convenient basis functions. Putting this into math based on last week’s section, we want a way to implement the expansion
+\label{equation:Section4_v2:30ad070c-8150-4527-a63c-24fdb9c310b5}\begin{equation}
+\psi(x) = \langle x | \psi \rangle = \sum_{i=1}^{n} c_i \langle x | \phi_i \rangle = \sum_{i=1}^{n} c_i \phi_i(x).
+\end{equation}
+\sphinxAtStartPar
+There are many possible reasonable choices of this basis, and there is a vast literature of DVR methods that use different choices (some that can’t even be written as nice analytical functions!). But let’s think about what we would want in a general DVR basis set.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Question: What nice properties might we want?}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Answer:} Some example of useful properties would be:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+We want the basis to satisfy \$\textbackslash{}langle x\_i | x\_j \textbackslash{}rangle \textbackslash{}propto \textbackslash{}delta\_\{i,j\}\$
+
+\item {} 
+\sphinxAtStartPar
+It would be nice if the basis functions were “well behaved” so that we can evaluate derivatives, Fourier transforms, etc.
+
+\end{itemize}
+
+\sphinxAtStartPar
+One example of a set of functions that satisfy these desiderata are the \sphinxstyleemphasis{sinc functions}:
+\label{equation:Section4_v2:80aa6e3c-bbf0-496b-82c8-0d0abc89c53e}\begin{equation}
+\phi_j(x) = \frac{1}{\sqrt{\Delta x}} \frac{\sin[\pi (x-x_j)/\Delta x]}{\pi (x-x_j)/\Delta x} = \frac{1}{\sqrt{\Delta x}} \text{sinc} [\pi (x-x_j)/\Delta x].
+\end{equation}
+\sphinxAtStartPar
+First of all, let’s explore why these basis functions are useful. It’s best to start this discussion graphically, so let’s use some code to implement the basis and plot the basis functions.
 
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
@@ -141,445 +198,140 @@ I am following “Calculation of band structures by a discrete variable represen
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
 
 \end{sphinxuseclass}
+\sphinxAtStartPar
+In the space below, we give you some code that defines a grid of x points and a function that implements the sinc\sphinxhyphen{}basis. Use these pieces of code to explore the sinc\sphinxhyphen{}basis functions and learn about their properties. You are looking to answer questions like the following:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+What is the value of a basis function \$\textbackslash{}phi\_j\$ at grid point \$x\_j\$?
 
-\section{Using the DVR scheme with periodic boundary conditions}
-\label{\detokenize{Section6:using-the-dvr-scheme-with-periodic-boundary-conditions}}
+\item {} 
+\sphinxAtStartPar
+What is the value of a basis function \$\textbackslash{}phi\_j\$ at a grid point \$x\_\{j+1\}\$? At \$x\_\{j+2\}\$?
+
+\item {} 
+\sphinxAtStartPar
+In general, how do the basis functions relate to one another?
+
+\end{itemize}
+
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{hbar} \PYG{o}{=} \PYG{l+m+mi}{1}
-\PYG{n}{mu} \PYG{o}{=} \PYG{l+m+mi}{1}
+\PYG{c+c1}{\PYGZsh{} Parameters that we set}
+\PYG{n}{xmin} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{n}{xmax} \PYG{o}{=} \PYG{l+m+mi}{9}
+\PYG{n}{N} \PYG{o}{=} \PYG{l+m+mi}{10}
 
-\PYG{c+c1}{\PYGZsh{} Set these}
-\PYG{n}{M}\PYG{o}{=}\PYG{l+m+mi}{100} \PYG{c+c1}{\PYGZsh{} Basis size will be N=2M+1}
-\PYG{n}{P}\PYG{o}{=}\PYG{l+m+mi}{5} \PYG{c+c1}{\PYGZsh{} Periodicity}
+\PYG{c+c1}{\PYGZsh{} Grid spacing and position\PYGZhy{}space grid points}
+\PYG{n}{Delta\PYGZus{}x} \PYG{o}{=} \PYG{p}{(}\PYG{n}{xmax}\PYG{o}{\PYGZhy{}}\PYG{n}{xmin}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{n}{N}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{xs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{n}{xmin}\PYG{p}{,}\PYG{n}{xmax}\PYG{p}{,}\PYG{n}{N}\PYG{p}{)}
+\PYG{n}{xs\PYGZus{}fine} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{n}{xmin}\PYG{p}{,}\PYG{n}{xmax}\PYG{p}{,}\PYG{n}{Delta\PYGZus{}x}\PYG{o}{/}\PYG{l+m+mi}{1000}\PYG{p}{)}
 
-\PYG{c+c1}{\PYGZsh{} Determined}
-\PYG{n}{xs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{P}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{M}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} Definition of the sinc\PYGZhy{}basis functions}
+\PYG{k}{def} \PYG{n+nf}{phi}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{xj}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{Delta\PYGZus{}x}\PYG{p}{)} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sinc}\PYG{p}{(}\PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{n}{xj}\PYG{p}{)}\PYG{o}{/}\PYG{n}{Delta\PYGZus{}x}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{\PYGZsh{} Build the Hamiltonian}
-\PYG{k}{def} \PYG{n+nf}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{kappa}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{N} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{M}\PYG{o}{+}\PYG{l+m+mi}{1}
-    \PYG{n}{Hmat} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{p}{(}\PYG{n}{N}\PYG{p}{,}\PYG{n}{N}\PYG{p}{)}\PYG{p}{,} \PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{complex}\PYG{p}{)}
-    \PYG{n}{Delta} \PYG{o}{=} \PYG{n}{P}\PYG{o}{/}\PYG{n}{N}
-    \PYG{n}{Delta\PYGZus{}prime} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{N}
-    \PYG{n}{omega} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{P}
-    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{N}\PYG{p}{)}\PYG{p}{:}
-        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{N}\PYG{p}{)}\PYG{p}{:}
-            \PYG{k}{if} \PYG{n}{i}\PYG{o}{==}\PYG{n}{j}\PYG{p}{:}
-                \PYG{n}{Hmat}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{hbar}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{mu}\PYG{p}{)}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{kappa}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2} \PYG{o}{+} \PYG{n}{omega}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{p}{(}\PYG{n}{M}\PYG{o}{*}\PYG{p}{(}\PYG{n}{M}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{3}\PYG{p}{)} \PYG{o}{+} \PYG{n}{Vfunc}\PYG{p}{(}\PYG{n}{i}\PYG{o}{*}\PYG{n}{Delta}\PYG{p}{)}
-            \PYG{k}{else}\PYG{p}{:}
-                \PYG{n}{factor1} \PYG{o}{=} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{n}{j}\PYG{o}{*}\PYG{n}{kappa}\PYG{o}{*}\PYG{n}{omega}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sin}\PYG{p}{(}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{n}{j}\PYG{p}{)}\PYG{o}{*}\PYG{n}{Delta\PYGZus{}prime}\PYG{p}{)}\PYG{p}{)}
-                \PYG{n}{factor2} \PYG{o}{=} \PYG{n}{omega}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{cos}\PYG{p}{(}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{n}{j}\PYG{p}{)}\PYG{o}{*}\PYG{n}{Delta\PYGZus{}prime}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sin}\PYG{p}{(}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{n}{j}\PYG{p}{)}\PYG{o}{*}\PYG{n}{Delta\PYGZus{}prime}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}
-                \PYG{n}{Hmat}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{hbar}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{mu}\PYG{p}{)}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{n}{j}\PYG{p}{)} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{exp}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{n}{j}\PYG{o}{*}\PYG{n}{kappa}\PYG{o}{*}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{n}{j}\PYG{p}{)}\PYG{o}{*}\PYG{n}{Delta}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{factor1}\PYG{o}{+}\PYG{n}{factor2}\PYG{p}{)}
-            
-    \PYG{k}{return} \PYG{n}{Hmat}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{Vfunc}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
-    \PYG{k}{return} \PYG{l+m+mf}{1.5} \PYG{o}{+} \PYG{l+m+mf}{1.5}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{cos}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{*}\PYG{n}{x}\PYG{o}{/}\PYG{n}{P}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{H}\PYG{o}{=}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{l+m+mf}{0.1}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc}\PYG{p}{)}
-\PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{H}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{kappa\PYGZus{}vals}\PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{P}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{P}\PYG{p}{,}\PYG{l+m+mi}{100}\PYG{p}{)}
-\PYG{n}{bands} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
-\PYG{k}{for} \PYG{p}{(}\PYG{n}{nk}\PYG{p}{,}\PYG{n}{kappa}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{Hmat} \PYG{o}{=} \PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{kappa}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc}\PYG{p}{)}
-    \PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{Hmat}\PYG{p}{)}
-    \PYG{n}{bands}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{nk}\PYG{p}{]} \PYG{o}{=} \PYG{n}{vals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{6}\PYG{p}{]}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{for} \PYG{n}{band\PYGZus{}val} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{,} \PYG{n}{bands}\PYG{p}{[}\PYG{n}{band\PYGZus{}val}\PYG{p}{,}\PYG{p}{:}\PYG{p}{]}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\noindent\sphinxincludegraphics{{Section6_9_0}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc}\PYG{p}{)}\PYG{p}{)}
-\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{o}{/}\PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\noindent\sphinxincludegraphics{{Section6_10_0}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
 
 \end{sphinxuseclass}
 \sphinxAtStartPar
-Now let’s try more interesting unit cells. Start with the Kronig\sphinxhyphen{}Penney model.
+There are two useful ways that we can look at these basis functions. First of all, we can plot an example like \$\textbackslash{}phi\_3(x\_j)\$ to look at the \$i=3\$ basis function evaluated at each grid point. If we overlay this with a plot of \$\textbackslash{}phi\_3(x)\$ evaluated on a much finer grid, we see that the sinc\sphinxhyphen{}basis is defined such that a given basis function \$\textbackslash{}phi\_i\$ is nonzero at grid point \$x\_i\$, and its oscillations ensure that it passes through zero at every other grid point!
 
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
+\sphinxAtStartPar
+\sphinxstylestrong{Question:} Does it matter that the sinc function takes on nonzero values away from the \$i\textbackslash{}neq j\$ grid points?
 
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{Vfunc}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
-    \PYG{k}{return} \PYG{l+m+mi}{3}\PYG{o}{*}\PYG{p}{(}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{o}{|}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{3}\PYG{o}{*}\PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{p}{)}
-
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{Vfunc}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{)}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}\begin{sphinxVerbatimOutput}
 
 \begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7faa1b7a8220\PYGZgt{}]
-\end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_12_1}.png}
+\noindent\sphinxincludegraphics{{Section4_v2_12_0}.png}
 
 \end{sphinxuseclass}\end{sphinxVerbatimOutput}
 
 \end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{kappa\PYGZus{}vals}\PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{P}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{P}\PYG{p}{,}\PYG{l+m+mi}{100}\PYG{p}{)}
-\PYG{n}{bands} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
-\PYG{k}{for} \PYG{p}{(}\PYG{n}{nk}\PYG{p}{,}\PYG{n}{kappa}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{Hmat} \PYG{o}{=} \PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{kappa}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc}\PYG{p}{)}
-    \PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{Hmat}\PYG{p}{)}
-    \PYG{n}{bands}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{nk}\PYG{p}{]} \PYG{o}{=} \PYG{n}{vals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{6}\PYG{p}{]}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{for} \PYG{n}{band\PYGZus{}val} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{,} \PYG{n}{bands}\PYG{p}{[}\PYG{n}{band\PYGZus{}val}\PYG{p}{,}\PYG{p}{:}\PYG{p}{]}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-(0.0, 1.0)
-\end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_14_1}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
 \end{sphinxuseclass}
 \sphinxAtStartPar
-Also plot the wavefunctions
+It can also be useful to look at a series of these sinc functions centered at different grid points. Notice where they all pass through zero, and where each individual basis function doesn’t pass through zero.
 
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{l+m+mf}{0.2}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc}\PYG{p}{)}\PYG{p}{)}
-\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{o}{/}\PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}\begin{sphinxVerbatimOutput}
 
 \begin{sphinxuseclass}{cell_output}
-\noindent\sphinxincludegraphics{{Section6_16_0}.png}
+\noindent\sphinxincludegraphics{{Section4_v2_14_0}.png}
 
 \end{sphinxuseclass}\end{sphinxVerbatimOutput}
 
 \end{sphinxuseclass}
+\end{sphinxuseclass}
+
+\subsection{Interpreting the Sinc\sphinxhyphen{}Basis}
+\label{\detokenize{Section4_v2:interpreting-the-sinc-basis}}
 \sphinxAtStartPar
-Try the double\sphinxhyphen{}well potential that Federico mentioned.
+\sphinxstylestrong{Question:} In light of these plots, how can we interpret the sinc\sphinxhyphen{}basis functions as compared to a set of Dirac delta functions?
 
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{Vfunc\PYGZus{}sym}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
-    \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{+} \PYG{l+m+mi}{1}\PYG{o}{*}\PYG{p}{(}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{o}{|}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{l+m+mf}{3.5}\PYG{o}{*}\PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{o}{*}\PYG{p}{(}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{4.5}\PYG{o}{*}\PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{o}{|}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{7}\PYG{o}{*}\PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{p}{)}
-
-\PYG{k}{def} \PYG{n+nf}{Vfunc\PYGZus{}asym}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
-    \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{+} \PYG{l+m+mi}{1}\PYG{o}{*}\PYG{p}{(}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{2.5}\PYG{o}{*}\PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{o}{|}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{l+m+mf}{3.5}\PYG{o}{*}\PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{o}{*}\PYG{p}{(}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{4.5}\PYG{o}{*}\PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{o}{|}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{7}\PYG{o}{*}\PYG{n}{P}\PYG{o}{/}\PYG{l+m+mi}{8}\PYG{p}{)}\PYG{p}{)}
-
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{Vfunc\PYGZus{}sym}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{)}\PYG{p}{)}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{Vfunc\PYGZus{}asym}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{)}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7fb458d60670\PYGZgt{}]
-\end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_18_1}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{kappa\PYGZus{}vals}\PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{P}\PYG{p}{,}\PYG{l+m+mi}{25}\PYG{p}{)}
-\PYG{n}{bands\PYGZus{}sym} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
-\PYG{k}{for} \PYG{p}{(}\PYG{n}{nk}\PYG{p}{,}\PYG{n}{kappa}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{Hmat} \PYG{o}{=} \PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{kappa}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc\PYGZus{}sym}\PYG{p}{)}
-    \PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{Hmat}\PYG{p}{)}
-    \PYG{n}{bands\PYGZus{}sym}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{nk}\PYG{p}{]} \PYG{o}{=} \PYG{n}{vals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{6}\PYG{p}{]}
-    
-\PYG{n}{kappa\PYGZus{}vals}\PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{P}\PYG{p}{,}\PYG{l+m+mi}{25}\PYG{p}{)}
-\PYG{n}{bands\PYGZus{}asym} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
-\PYG{k}{for} \PYG{p}{(}\PYG{n}{nk}\PYG{p}{,}\PYG{n}{kappa}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{Hmat} \PYG{o}{=} \PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{kappa}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc\PYGZus{}asym}\PYG{p}{)}
-    \PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{Hmat}\PYG{p}{)}
-    \PYG{n}{bands\PYGZus{}asym}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{nk}\PYG{p}{]} \PYG{o}{=} \PYG{n}{vals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{6}\PYG{p}{]}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{colors} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{rcParams}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{axes.prop\PYGZus{}cycle}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{by\PYGZus{}key}\PYG{p}{(}\PYG{p}{)}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{color}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}
-\PYG{k}{for} \PYG{n}{band\PYGZus{}val} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{,} \PYG{n}{bands\PYGZus{}sym}\PYG{p}{[}\PYG{n}{band\PYGZus{}val}\PYG{p}{,}\PYG{p}{:}\PYG{p}{]}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{n}{colors}\PYG{p}{[}\PYG{n}{band\PYGZus{}val}\PYG{p}{]}\PYG{p}{)}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{,} \PYG{n}{bands\PYGZus{}asym}\PYG{p}{[}\PYG{n}{band\PYGZus{}val}\PYG{p}{,}\PYG{p}{:}\PYG{p}{]}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{\PYGZhy{}\PYGZhy{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{n}{colors}\PYG{p}{[}\PYG{n}{band\PYGZus{}val}\PYG{p}{]}\PYG{p}{)}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{gca}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{set\PYGZus{}prop\PYGZus{}cycle}\PYG{p}{(}\PYG{k+kc}{None}\PYG{p}{)}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylim}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{)}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ka}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Energy}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Solid = symmetric, dashed = asymmetric}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-Text(0.5, 1.0, \PYGZsq{}Solid = symmetric, dashed = asymmetric\PYGZsq{})
-\end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_20_1}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
 \sphinxAtStartPar
-Also plot the wavefunctions for a particular kappa value
-
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{l+m+mf}{0.352}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{Vfunc\PYGZus{}sym}\PYG{p}{)}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7fb468adddc0\PYGZgt{}]
-\end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_23_1}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
+\sphinxstylestrong{Answer:} This is a finite resolution basis that is like the closest possible approximation to a delta function that we can make for a given range on the number of momentum basis functions that our spatial grid can accomodate. As the plots above show, we means this in the sense that these basis states satisfy
+\label{equation:Section4_v2:cf130d56-83a6-4358-81ab-a5492c398baf}\begin{equation}
+\phi_j(x_k) \propto \delta_{k,j},
+\end{equation}
 \sphinxAtStartPar
-And the “soft Coulomb” potential
+so a given basis function only gives a nonzero contribution to a function at the point at which that basis function is centered.
+
+\sphinxAtStartPar
+The sinc basis has a nice relationship to the Fourier transforms that we discussed last week. In particular, the sinc basis functions can be written as follows:
+\label{equation:Section4_v2:8e0743d5-9966-415b-bcd4-e9abe6576630}\begin{equation}
+\phi_j(x) = \frac{\sqrt{\Delta x}}{2\pi} \int_{-\pi/\Delta x}^{\pi/\Delta x} e^{i k(x-x_j)} dk
+\end{equation}
+\sphinxAtStartPar
+\sphinxstylestrong{Question:} Can you justify this form qualitatively? How does it relate to Fourier transforms that we studied last week? And why are the limits on the integral those numbers?
+
+
+\section{Deriving the Kinetic Energy Matrix}
+\label{\detokenize{Section4_v2:deriving-the-kinetic-energy-matrix}}
+\sphinxAtStartPar
+Now that we have a useful basis, we can try to solve problems with it. We still need to learn how to express the Hamiltonian in this basis. Since the Hamiltonian is
+\label{equation:Section4_v2:2db4dfb3-42a7-4875-b6f7-98f7eeee8a9b}\begin{equation}
+H = -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + V(x)
+\end{equation}
+\sphinxAtStartPar
+we need to figure out how to express the second derivative operator and the \$V(x)\$ operator in our chosen basis.
+
+\sphinxAtStartPar
+Let’s start with the kinetic energy term. We want to derive a kinetic energy matrix with matrix elements
+\label{equation:Section4_v2:6f40d1cc-3ad8-464c-ba4c-fce641c381b3}\begin{equation}
+T_{ij} = -\frac{\hbar^2}{2m} \left \langle \phi_i \left\lvert \frac{d^2}{dx^2} \right\rvert \phi_j \right \rangle.
+\end{equation}
+\sphinxAtStartPar
+It turns out this is where the Fourier transform expression is super helpful. We can go through the following steps:
+\label{equation:Section4_v2:6bb1a75c-ba24-401f-9df8-2532aa94fc27}\begin{equation}
+\int_{-\infty}^{\infty} \phi_i^\ast(x) \frac{d^2}{dx^2} \phi_j(x) dx = \frac{\Delta x}{(2\pi)^2} \int_{-\infty}^{\infty} dx \int_{-\pi/\Delta x}^{\pi/\Delta x} e^{-i k (x-x_i)} dk \int_{-\pi/\Delta x}^{\pi/\Delta x} \left( \frac{d^2}{dx^2} e^{i k' (x-x_j)} \right) dk'
+\end{equation}
+\sphinxAtStartPar
+Because we’ve expressed the basis function in terms of plane waves, evaluating \$\textbackslash{}frac\{d\textasciicircum{}2\}\{dx\textasciicircum{}2\}\$ is really easy: it just corresponds to pulling down a factor of \$(ik)\textasciicircum{}2\$. That gets us to
+\label{equation:Section4_v2:c5c0b553-b2b6-4d56-8447-496edaf1cedb}\begin{equation}
+\frac{\Delta x}{(2\pi)^2} \int_{-\pi/\Delta x}^{\pi/\Delta x} (ik)^2 e^{i k (x_i - x_j)} dk.
+\end{equation}
+\sphinxAtStartPar
+If you work through these integrals, you will find that:
+\label{equation:Section4_v2:371fb54b-a84d-4430-b08e-9f79a175079a}\begin{equation}
+\boxed{T_{i,j=i} = \frac{\hbar^2}{2m \Delta x^2} \frac{\pi^2}{3}}
+\end{equation}
+\sphinxAtStartPar
+and
+\label{equation:Section4_v2:ad71e8bf-aabd-451b-8263-27c9f56da31b}\begin{equation}
+\boxed{T_{i,j \neq i} = \frac{\hbar^2}{2m \Delta x^2} \frac{2 (-1)^{i-j}}{(i-j)^2}}
+\end{equation}
+\sphinxAtStartPar
+\sphinxstylestrong{Task:} Now fill in the code below to make a function that builds the kinetic energy operator and the potential energy operator.
 
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{V\PYGZus{}C}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
-    \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{+}\PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{xs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{100}\PYG{p}{)}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{V\PYGZus{}C}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{)}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7fb47ab80fd0\PYGZgt{}]
-\end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_26_1}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{P} \PYG{o}{=} \PYG{l+m+mi}{10}
-\PYG{n}{M} \PYG{o}{=} \PYG{l+m+mi}{50}
-\PYG{n}{kappa\PYGZus{}vals}\PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{/}\PYG{n}{P}\PYG{p}{,}\PYG{l+m+mi}{25}\PYG{p}{)}
-\PYG{n}{bands} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{,}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
-\PYG{k}{for} \PYG{p}{(}\PYG{n}{nk}\PYG{p}{,}\PYG{n}{kappa}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{Hmat} \PYG{o}{=} \PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{kappa}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{V\PYGZus{}C}\PYG{p}{)}
-    \PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{Hmat}\PYG{p}{)}
-    \PYG{n}{bands}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{nk}\PYG{p}{]} \PYG{o}{=} \PYG{n}{vals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{6}\PYG{p}{]}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{for} \PYG{n}{band\PYGZus{}val} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{kappa\PYGZus{}vals}\PYG{p}{,} \PYG{n}{bands}\PYG{p}{[}\PYG{n}{band\PYGZus{}val}\PYG{p}{,}\PYG{p}{:}\PYG{p}{]}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\noindent\sphinxincludegraphics{{Section6_28_0}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{bands}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{]}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
-       [\PYGZhy{}0.24614924, \PYGZhy{}0.29620133],
-       [\PYGZhy{}0.17392269,  0.00475342],
-       [ 0.34513722,  0.02303324]])
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{l+m+mf}{0.157}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{n}{M}\PYG{p}{,} \PYG{n}{V\PYGZus{}C}\PYG{p}{)}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{vals}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{+}\PYG{l+m+mf}{0.3}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\noindent\sphinxincludegraphics{{Section6_31_0}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-
-\section{Also try the sinc\sphinxhyphen{}basis DVR code and program some “periodic” potentials by hand}
-\label{\detokenize{Section6:also-try-the-sinc-basis-dvr-code-and-program-some-periodic-potentials-by-hand}}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} work in some convenient units}
 \PYG{n}{hbar} \PYG{o}{=} \PYG{l+m+mi}{1}
 \PYG{n}{m} \PYG{o}{=} \PYG{l+m+mi}{1}
 \end{sphinxVerbatim}
@@ -594,24 +346,47 @@ array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
 \PYG{c+c1}{\PYGZsh{} Function to make the kinetic energy operator}
 \PYG{k}{def} \PYG{n+nf}{make\PYGZus{}T}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
     \PYG{n}{Delta\PYGZus{}x} \PYG{o}{=} \PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
-    \PYG{n}{N} \PYG{o}{=} \PYG{n}{x}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{N} \PYG{o}{=} \PYG{n}{xs}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
     \PYG{n}{Tmat} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{p}{(}\PYG{n}{N}\PYG{p}{,}\PYG{n}{N}\PYG{p}{)}\PYG{p}{)}
     
     \PYG{c+c1}{\PYGZsh{} now loop over kinetic energy matrix and fill in matrix elements}
     \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{N}\PYG{p}{)}\PYG{p}{:}
         \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{N}\PYG{p}{)}\PYG{p}{:}
             \PYG{k}{if} \PYG{n}{i}\PYG{o}{==}\PYG{n}{j}\PYG{p}{:}
-                \PYG{n}{Tmat}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{hbar}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{m}\PYG{o}{*}\PYG{n}{Delta\PYGZus{}x}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{3}
+                \PYG{n}{Tmat}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{hbar}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{m}\PYG{o}{*}\PYG{n}{Delta\PYGZus{}x}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{n}{j}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{3}
             \PYG{k}{else}\PYG{p}{:}
                 \PYG{n}{Tmat}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{hbar}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{m}\PYG{o}{*}\PYG{n}{Delta\PYGZus{}x}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{n}{j}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mi}{2}\PYG{o}{/}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{n}{j}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}
                 
     \PYG{k}{return} \PYG{n}{Tmat}
   
+\end{sphinxVerbatim}
+
+\end{sphinxuseclass}\end{sphinxVerbatimInput}
+
+\end{sphinxuseclass}
+
+\section{Deriving the Potential Energy Matrix}
+\label{\detokenize{Section4_v2:deriving-the-potential-energy-matrix}}
+\sphinxAtStartPar
+For the potential energy matrix, we need to express \$V(x)\$ in matrix form. Since \$V(x)\$ can be expanded as a power series in the position operator \$\textbackslash{}hat\{x\}\$, let’s first look at the matrix form of \$\textbackslash{}hat\{x\}\$ itself. We want the matrix elements \$x\_\{ij\} = \textbackslash{}langle \textbackslash{}phi\_i | x | \textbackslash{}phi\_j \textbackslash{}rangle\$. In other words, we want
+\label{equation:Section4_v2:dc5dbfcd-bf9b-4aea-8fc2-609cc9374597}\begin{equation}
+\int_{-\infty}^{\infty} \phi_i(x)^\ast x \phi_j(x) dx = \frac{\Delta x}{(2\pi)^2} \int_{-\pi/\Delta x}^{\pi/\Delta x} dk \int_{-\pi/\Delta x}^{\pi/\Delta x} dk' e^{ikx_i - ik'x_j} \int_{-\infty}^{\infty} x e^{i x (k'-k)} dx.
+\end{equation}
+\sphinxAtStartPar
+In the last term, note that we can replace \$x\$ by \$\textbackslash{}frac\{d\}\{d(ik’)\}\$ and then pull the derivative outside of the integral over \$x\$ (since it doesn’t depend on \$x\$ anymore).  Working through the integrals after that step, we get to
+\label{equation:Section4_v2:069c3e0e-4ea5-4257-8621-8e9ab55d8606}\begin{equation}
+x_{ij} = \frac{\Delta x}{2\pi} x_i \int_{-\pi/\Delta x}{\pi/\Delta x} dk' e^{ik'(x_i-x_j)} = x_i \delta_{i,j}.
+\end{equation}
+\sphinxAtStartPar
+\sphinxstylestrong{The important conclusion is that \$\textbackslash{}hat\{x\}\$ is diagonal in this basis!} So the potential energy, which can be expanded in powers of \$x\$ is also diagonal in this basis! Knowing this, we can just make the potential energy operator by building a diagonal matrix from \$V(x)\$. The function \sphinxcode{\sphinxupquote{make\_V}} does this, and then the function \sphinxcode{\sphinxupquote{make\_H}} just calls the kinetic and potential energy functions and puts them together.
+
+\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
+
+\begin{sphinxuseclass}{cell_input}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+c1}{\PYGZsh{} Function to make the potential energy operator}
 \PYG{k}{def} \PYG{n+nf}{make\PYGZus{}V}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{Vfunc}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{Vmat} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{,}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
-    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}\PYG{p}{:}
-        \PYG{n}{Vmat}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{Vfunc}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}
+    \PYG{n}{Vmat} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{diag}\PYG{p}{(}\PYG{n}{Vfunc}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
     \PYG{k}{return} \PYG{n}{Vmat}
 
 \PYG{c+c1}{\PYGZsh{} Function to make the full Hamiltonian}
@@ -622,12 +397,17 @@ array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
 
 \end{sphinxuseclass}
+
+\section{Testing the DVR code}
+\label{\detokenize{Section4_v2:testing-the-dvr-code}}
+\sphinxAtStartPar
+That was a lot of work to get our Hamiltonian matrix. But now let’s see the payoff! We’ll see that the DVR code is incredibly accurate, especially compared to the finite differences method that we used before. As always let’s test our code by using a harmonic oscillator potential. Let’s start with a 20 point grid and see how the calculations do for energies and wavefunctions.
+
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{N} \PYG{o}{=} \PYG{l+m+mi}{900}
-\PYG{n}{xs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{n}{N}\PYG{p}{)}
+\PYG{n}{xs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{20}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
@@ -637,15 +417,8 @@ array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{def} \PYG{n+nf}{V\PYGZus{}wells}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{out} \PYG{o}{=} \PYG{l+m+mi}{0}
-    \PYG{k}{if} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mf}{3.0}\PYG{p}{:}
-        \PYG{n}{out} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{200}
-    \PYG{k}{else}\PYG{p}{:}
-        \PYG{k}{for} \PYG{n}{n} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{p}{:}
-            \PYG{k}{if} \PYG{p}{(}\PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.035}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{n}{n}\PYG{p}{)}\PYG{o}{\PYGZam{}}\PYG{p}{(}\PYG{p}{(}\PYG{n}{x}\PYG{o}{+}\PYG{l+m+mf}{0.035}\PYG{p}{)}\PYG{o}{\PYGZgt{}}\PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{n}{n}\PYG{p}{)}\PYG{p}{:}
-                \PYG{n}{out} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{200}
-    \PYG{k}{return} \PYG{n}{out}
+\PYG{k}{def} \PYG{n+nf}{Vharmonic}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{return} \PYG{l+m+mf}{0.5}\PYG{o}{*}\PYG{n}{x}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}
 \end{sphinxVerbatim}
 
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
@@ -655,47 +428,9 @@ array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{p}{[}\PYG{n}{V\PYGZus{}wells}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{)}\PYG{p}{)}\PYG{p}{]}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7faa1c7b0e50\PYGZgt{}]
-\end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_37_1}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{Ham}\PYG{o}{=}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{V\PYGZus{}wells}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{Ham} \PYG{o}{=} \PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{Vharmonic}\PYG{p}{)}
 \PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{Ham}\PYG{p}{)}
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimInput}
-
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
-
-\begin{sphinxuseclass}{cell_input}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{vals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{30}\PYG{p}{]}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{o}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{vals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{4}\PYG{p}{]}
 \end{sphinxVerbatim}
 
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
@@ -703,10 +438,8 @@ array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
 
 \begin{sphinxuseclass}{cell_output}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7faa2a84f8b0\PYGZgt{}]
+array([0.50042652, 1.49199271, 2.54377448, 3.30864454])
 \end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_40_1}.png}
 
 \end{sphinxuseclass}\end{sphinxVerbatimOutput}
 
@@ -715,11 +448,223 @@ array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{100}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{axhline}\PYG{p}{(}\PYG{n}{vals}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\end{sphinxuseclass}\end{sphinxVerbatimInput}
+\begin{sphinxVerbatimOutput}
+
+\begin{sphinxuseclass}{cell_output}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+[\PYGZlt{}matplotlib.lines.Line2D at 0x7fdb1af5e8e0\PYGZgt{},
+ \PYGZlt{}matplotlib.lines.Line2D at 0x7fdb1af5e910\PYGZgt{},
+ \PYGZlt{}matplotlib.lines.Line2D at 0x7fdb1af5ea30\PYGZgt{}]
+\end{sphinxVerbatim}
+
+\noindent\sphinxincludegraphics{{Section4_v2_35_1}.png}
+
+\end{sphinxuseclass}\end{sphinxVerbatimOutput}
+
+\end{sphinxuseclass}
+\sphinxAtStartPar
+Let’s look at the accuracy of our solutions as a function of quantum number.
+
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}\begin{sphinxVerbatimOutput}
+
+\begin{sphinxuseclass}{cell_output}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+Text(0, 0.5, \PYGZsq{}Fractional error\PYGZsq{})
+\end{sphinxVerbatim}
+
+\noindent\sphinxincludegraphics{{Section4_v2_37_1}.png}
+
+\end{sphinxuseclass}\end{sphinxVerbatimOutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\sphinxAtStartPar
+\sphinxstylestrong{Question:} Explain the differences between the case with 50 grid points and the case with 60 grid points. Why is the agreement better to higher \$n\$ for 60 grid points? Also, why does the agreement seem to always get worse above \$n \textbackslash{}sim 25\$, even if the number of grid points is increased?
+
+
+\subsection{Comparing DVR to Finite Differences}
+\label{\detokenize{Section4_v2:comparing-dvr-to-finite-differences}}
+\sphinxAtStartPar
+Let’s look at the accuracy of the numerical solution as a function of the number of grid points. We can compare this to the results of HW 1 to see how the DVR method does against finite differences.
+
+\sphinxAtStartPar
+In this block, write a function that computes the fractional error in the SHO eigenstates as a function of the number of grid points used.
+
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\sphinxAtStartPar
+This next block is already written for you– nothing you need to do!— to implement and solve the same problem using the Numerov method. The code is taken from the HW1 solutions.
+
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\sphinxAtStartPar
+Now, make a plot of the relative errors comparing the numerov and DVR methods for the ground state as a function of the grid spacing \$\textbackslash{}Delta x\$.
+
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}\begin{sphinxVerbatimOutput}
+
+\begin{sphinxuseclass}{cell_output}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+Text(0, 0.5, \PYGZsq{}Fractional error\PYGZsq{})
+\end{sphinxVerbatim}
+
+\noindent\sphinxincludegraphics{{Section4_v2_46_1}.png}
+
+\end{sphinxuseclass}\end{sphinxVerbatimOutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\sphinxAtStartPar
+Clearly the DVR method is much better than the Numerov technique! For reasonable grid sizes, the DVR method gets the ground\sphinxhyphen{}state energy with almost 10 orders of magnitude better relative agreement!! (And remember, the Numerov method was already much better than a “plain” second\sphinxhyphen{}order finite differences approximation to the Hamiltonian…)
+
+\sphinxAtStartPar
+\sphinxstylestrong{Question:} Why do you think the DVR method stops getting more accurate at a certain step size? What does this tell you about setting up simulations?
+
+
+\chapter{Section 6: An Intuitive Picture of Band Structure}
+\label{\detokenize{Section6_v2:section-6-an-intuitive-picture-of-band-structure}}\label{\detokenize{Section6_v2::doc}}
+\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
+
+\begin{sphinxuseclass}{cell_input}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib}\PYG{n+nn}{.}\PYG{n+nn}{pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{from} \PYG{n+nn}{ipywidgets} \PYG{k+kn}{import} \PYG{n}{interact}\PYG{p}{,} \PYG{n}{FloatSlider}
+\PYG{k+kn}{from} \PYG{n+nn}{IPython}\PYG{n+nn}{.}\PYG{n+nn}{display} \PYG{k+kn}{import} \PYG{n}{display}
+\end{sphinxVerbatim}
+
+\end{sphinxuseclass}\end{sphinxVerbatimInput}
+
+\end{sphinxuseclass}
+\sphinxAtStartPar
+In this Section, we are going to explore the emergence of band structure using simple models that you have studied before. We will consider a series of potential barriers (equally spaced) to simulate the periodic potential that electrons experience inside a crystal. By varying the heights of these barriers, we can smoothly transition between two simple limits: (1) a single, wide square well and (2) a series of narrow, uncoupled square wells. Band structure emerges between these two extremes.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Learning Goals}
+After this Section, you should:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Be able to explain the qualitative origins of energy bands
+
+\item {} 
+\sphinxAtStartPar
+Explain the origin of energy spacings \sphinxstyleemphasis{within} bands as compared to \sphinxstyleemphasis{between} bands
+
+\item {} 
+\sphinxAtStartPar
+Describe the shape of electronic wavefunctions at the edge of each Brillouin zone
+
+\item {} 
+\sphinxAtStartPar
+Explain the connection between bound state and scattering methods of characterizing the energy levels of the periodic potential
+
+\end{itemize}
+
+
+\section{Qualitative Solution}
+\label{\detokenize{Section6_v2:qualitative-solution}}
+\sphinxAtStartPar
+Before we dive into numerical solutions, let’s think about the following qualitative situation: we have a square well of width \$L\$. Within the well, we place a series of barriers that partition the square well into \$N\$ narrower wells with width \$a\$. Each barrier has height \$\textbackslash{}beta\$ and thickness \$b\$.
+
+\sphinxAtStartPar
+Let’s start by considering the barriers to be infinitely thin (basically, delta functions). Now, as a class, let’s work through the following questions:
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+What are the energies and eigenstates of the wide well if the barriers are not present (\$\textbackslash{}beta=0\$)?
+
+\item {} 
+\sphinxAtStartPar
+When \$\textbackslash{}beta \textbackslash{}rightarrow \textbackslash{}infty\$, what should the wavefunctions look like?
+
+\item {} 
+\sphinxAtStartPar
+As we increase \$\textbackslash{}beta\$ to take on finite values, what will happen to the wavefunctions? How will they look? What will their ordering be like relative to the cases we just described?
+
+\item {} 
+\sphinxAtStartPar
+What analogies could we make between excitation of different bands and excitations of atoms in a solid?
+
+\end{enumerate}
+
+\sphinxAtStartPar
+After going through these qualitative arguments, we can now look at what the numerics tell us.
+
+
+\section{Building the potential V(x)}
+\label{\detokenize{Section6_v2:building-the-potential-v-x}}
+\sphinxAtStartPar
+First we’ll write some functions that build our model potential. Our model includes the following parameters:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\$L\$: width of the enclosing square well
+
+\item {} 
+\sphinxAtStartPar
+\$a\$: width of each narrow square well
+
+\item {} 
+\sphinxAtStartPar
+\$b\$: thickness of each internal barrier
+
+\item {} 
+\sphinxAtStartPar
+\$N\$: number of narrow square wells
+
+\item {} 
+\sphinxAtStartPar
+\$\textbackslash{}beta\$: heigh of each barrier
+
+\end{itemize}
+
+\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
+
+\begin{sphinxuseclass}{cell_input}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} This function will return another function that depends only on x.}
+\PYG{c+c1}{\PYGZsh{} That\PYGZsq{}s a convenient way to get a function of x that can go into our DVR code.}
+\PYG{c+c1}{\PYGZsh{} fullwidth allows us to embed the entire potential in a wider \PYGZdq{}framing\PYGZdq{} square well}
+\PYG{k}{def} \PYG{n+nf}{make\PYGZus{}potential}\PYG{p}{(}\PYG{n}{N}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{beta}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{L} \PYG{o}{=} \PYG{n}{N}\PYG{o}{*}\PYG{n}{a}\PYG{o}{+}\PYG{p}{(}\PYG{n}{N}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{*}\PYG{n}{b}
+    \PYG{k}{if} \PYG{n}{N} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{n}{x0s} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{N}\PYG{p}{)}\PYG{o}{*}\PYG{p}{(}\PYG{n}{a}\PYG{o}{+}\PYG{n}{b}\PYG{p}{)}\PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{L}\PYG{o}{/}\PYG{l+m+mi}{2} \PYG{c+c1}{\PYGZsh{} locations of barrier centers}
+        \PYG{k}{def} \PYG{n+nf}{fn}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} builds a barrier of height beta and width b centered at each x0 value:}
+            \PYG{n}{barriers} \PYG{o}{=} \PYG{n}{beta}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{p}{[}\PYG{n}{np}\PYG{o}{.}\PYG{n}{heaviside}\PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{n}{x0s}\PYG{p}{[}\PYG{n}{n}\PYG{p}{]}\PYG{o}{+}\PYG{n}{b}\PYG{o}{/}\PYG{l+m+mi}{2} \PYG{p}{,} \PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{heaviside}\PYG{p}{(}\PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{n}{x0s}\PYG{p}{[}\PYG{n}{n}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{b}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{,} \PYG{l+m+mf}{0.5}\PYG{p}{)} \PYG{k}{for} \PYG{n}{n} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{N}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{]}\PYG{p}{,} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}
+            \PYG{k}{return} \PYG{n}{barriers} \PYG{o}{+} \PYG{n}{beta} \PYG{o}{*} \PYG{p}{(}\PYG{p}{(}\PYG{n}{x} \PYG{o}{\PYGZlt{}} \PYG{o}{\PYGZhy{}}\PYG{n}{L}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{o}{\PYGZhy{}}\PYG{n}{b}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{|} \PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZgt{}}\PYG{n}{L}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{o}{+}\PYG{n}{b}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n}{a} \PYG{o}{=} \PYG{n}{L}
+        \PYG{k}{def} \PYG{n+nf}{fn}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)} \PYG{o}{+} \PYG{n}{beta} \PYG{o}{*} \PYG{p}{(}\PYG{p}{(}\PYG{n}{x} \PYG{o}{\PYGZlt{}} \PYG{o}{\PYGZhy{}}\PYG{n}{L}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{|} \PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZgt{}}\PYG{n}{L}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{)}
     
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{p}{[}\PYG{n}{V\PYGZus{}wells}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{)}\PYG{p}{)}\PYG{p}{]}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{k}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylim}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{300}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{fn}
+    
+\end{sphinxVerbatim}
+
+\end{sphinxuseclass}\end{sphinxVerbatimInput}
+
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
+
+\begin{sphinxuseclass}{cell_input}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{f\PYGZus{}test} \PYG{o}{=} \PYG{n}{make\PYGZus{}potential}\PYG{p}{(}\PYG{l+m+mi}{9}\PYG{p}{,} \PYG{l+m+mf}{1.1e\PYGZhy{}9}\PYG{p}{,} \PYG{l+m+mf}{0.1e\PYGZhy{}9}\PYG{p}{,} \PYG{l+m+mf}{1.5}\PYG{p}{)}
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{5000}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mf}{1e\PYGZhy{}9}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{f\PYGZus{}test}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{o}{.}\PYG{n}{T}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{x}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{V}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
@@ -727,27 +672,132 @@ array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
 
 \begin{sphinxuseclass}{cell_output}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-(0.0, 300.0)
+Text(0, 0.5, \PYGZsq{}V\PYGZsq{})
 \end{sphinxVerbatim}
 
-\noindent\sphinxincludegraphics{{Section6_41_1}.png}
+\noindent\sphinxincludegraphics{{Section6_v2_10_1}.png}
 
 \end{sphinxuseclass}\end{sphinxVerbatimOutput}
 
 \end{sphinxuseclass}
 
-\section{Use transfer matrix approach}
-\label{\detokenize{Section6:use-transfer-matrix-approach}}
+\section{Making the DVR code}
+\label{\detokenize{Section6_v2:making-the-dvr-code}}
+\sphinxAtStartPar
+Next, we set up the DVR code from Section 4 to build the Hamiltonian for our system. This code is the same as we have used previously.
+
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\sphinxAtStartPar
+Let’s test this on a potential consisting of 12 wells that are fairly deep. After building the potential, we construct the Hamiltonian, evaluate the eigenvectors/eigenvalues, and then plot.
+
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}\begin{sphinxVerbatimOutput}
+
+\begin{sphinxuseclass}{cell_output}
+\noindent\sphinxincludegraphics{{Section6_v2_15_0}.png}
+
+\end{sphinxuseclass}\end{sphinxVerbatimOutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\sphinxAtStartPar
+We can now plot the numerically computed eigenvalues. Let’s overlay these values with the energy levels that would occur if there were no barriers inside the potential—the energy levels of the “wide” finite square well.
+
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}\begin{sphinxVerbatimOutput}
+
+\begin{sphinxuseclass}{cell_output}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+[\PYGZlt{}matplotlib.lines.Line2D at 0x7f8b70556e80\PYGZgt{}]
+\end{sphinxVerbatim}
+
+\noindent\sphinxincludegraphics{{Section6_v2_18_1}.png}
+
+\end{sphinxuseclass}\end{sphinxVerbatimOutput}
+
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\sphinxAtStartPar
+Notice that the periodic potential leads to a structure highly reminiscient of band structure: the energy levels roughly follow the parabolic shape expected from the wide square well (or, from a different perspective, for the free particle), but the levels are broken up into bands with the characteristic shape that we see in class. And there are band gaps between these bands.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Question: What will the plot look like if we increase the well separation to the point that the wells are essentially fully uncoupled? Will there be energy degeneracies? How many levels will share the same energy? What happens as the number of wells is increased–which energy gaps “close” and which remain?}
+
+\sphinxAtStartPar
+To answer these questions, perform a “numerical experiment” and compare your results to the appropriate square well. How do the numbers compare?
+
+\sphinxAtStartPar
+\sphinxstylestrong{Question: What happens if the well separation is decreased to essentially zero? How do these energies compare to the appropriate finite square well? What about the comparison to free particle energies?}
+
+\sphinxAtStartPar
+Let’s look at the wavefunctions to understand this even better. It will be useful to plot the actual wavefunctions and have some interactivity. The code below makes a plot with a slider that allows you to look at all of the bound eigenstates for a given potential. Once you set the number of wells, their width, and their barriers, you can scan through the eigenstates and look at the behavior.
+
+\begin{sphinxuseclass}{cell}
+\begin{sphinxuseclass}{tag_hide-input}
+\end{sphinxuseclass}
+\end{sphinxuseclass}
+\sphinxAtStartPar
+For example, we can start with 12 wells that are each 0.8 nm wide, 4 eV high, and have a 0.05 nm barrier between them. For this set of parameters, use the interactive plotting to gain some insights about the potential.
+
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{m} \PYG{o}{=}\PYG{l+m+mi}{1}
+\PYG{n}{N} \PYG{o}{=} \PYG{l+m+mi}{12} \PYG{c+c1}{\PYGZsh{} number of wells}
+\PYG{n}{a} \PYG{o}{=} \PYG{l+m+mf}{0.8e\PYGZhy{}9}
+\PYG{n}{b} \PYG{o}{=} \PYG{l+m+mf}{0.05e\PYGZhy{}9} \PYG{c+c1}{\PYGZsh{} wall thickness in nm}
+\PYG{n}{beta} \PYG{o}{=} \PYG{l+m+mi}{4} \PYG{o}{/} \PYG{l+m+mf}{6.24150907e18} \PYG{c+c1}{\PYGZsh{} well height in J}
+\PYG{n}{V\PYGZus{}wells} \PYG{o}{=} \PYG{n}{make\PYGZus{}potential}\PYG{p}{(}\PYG{n}{N}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{beta}\PYG{p}{)}
+\PYG{n}{xs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{900}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mf}{1e\PYGZhy{}9}
+
+\PYG{n}{Ham}\PYG{o}{=}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{V\PYGZus{}wells}\PYG{p}{)}
+
+\PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{Ham}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} make sure ground state is upward going}
+\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sign}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{n}{np}\PYG{o}{.}\PYG{n}{argmax}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{vecs}\PYG{p}{[}\PYG{p}{:}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} number of bound states:}
+\PYG{n}{nbound} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{p}{[}\PYG{n}{vals}\PYG{o}{\PYGZlt{}}\PYG{n}{beta}\PYG{p}{]}\PYG{p}{)}
+
+
+\PYG{n}{interact\PYGZus{}wavefunction}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
 \end{sphinxVerbatim}
 
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
+\begin{sphinxVerbatimOutput}
+
+\begin{sphinxuseclass}{cell_output}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+interactive(children=(FloatSlider(value=0.0, description=\PYGZsq{}Eigenstate\PYGZsq{}, max=32.0, step=1.0), Output()), \PYGZus{}dom\PYGZus{}cl…
+\end{sphinxVerbatim}
+
+\end{sphinxuseclass}\end{sphinxVerbatimOutput}
 
 \end{sphinxuseclass}
+\sphinxAtStartPar
+\sphinxstylestrong{Question: Using the interactive graphs above, how does the behavior of each wavefunction within a single band conform to our expectations from Bloch’s theorem? How do the wavefunctions differ from band to band? What do you expect to happen as \$N \textbackslash{}rightarrow \textbackslash{}infty\$?}
+
+
+\section{Transfer matrix approach}
+\label{\detokenize{Section6_v2:transfer-matrix-approach}}
+\sphinxAtStartPar
+There’s a totally different way to look at band structure: by studying the scattering properties of the potential. This is a complementary method to learn about a potentials bound states. Scattering studies are widely used in many fields of physics/chemistry, from studying the solid state to studying atoms and molecules. Let’s see what we can learn about electronic band structure from this point of view using the transfer matrix program that you wrote on HW2.
+
+\sphinxAtStartPar
+First of all, let’s go over the idea of the transfer matrix approach.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Set up approach, talk about different role of propagation vs. transmission matrices.}
+
+\sphinxAtStartPar
+The code to implement each of these matrices is copied below.
+
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
 \begin{sphinxuseclass}{cell_input}
@@ -770,109 +820,91 @@ array([[\PYGZhy{}0.67028101, \PYGZhy{}0.66929123],
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
 
 \end{sphinxuseclass}
+\sphinxAtStartPar
+\sphinxstylestrong{Question: What do the peaks here represent? What is the physics going on when N=2? N=3? Large N?}
+
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{Es} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mf}{0.01}\PYG{p}{,} \PYG{l+m+mf}{4.0}\PYG{p}{,} \PYG{l+m+mf}{0.0005}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}1.6}
-\PYG{n}{width\PYGZus{}barrier} \PYG{o}{=} \PYG{l+m+mf}{0.12}
-\PYG{n}{width\PYGZus{}gap} \PYG{o}{=} \PYG{l+m+mi}{5}
+\PYG{n}{a} \PYG{o}{=} \PYG{l+m+mf}{0.8e\PYGZhy{}9}
+\PYG{n}{b} \PYG{o}{=} \PYG{l+m+mf}{0.1e\PYGZhy{}9}
+
+\PYG{n}{Es} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{arange}\PYG{p}{(}\PYG{l+m+mf}{0.01}\PYG{p}{,} \PYG{l+m+mf}{12.0}\PYG{p}{,} \PYG{l+m+mf}{0.001}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mf}{6.24150907e18}
+\PYG{n}{width\PYGZus{}barrier} \PYG{o}{=} \PYG{n}{b}
+\PYG{n}{width\PYGZus{}gap} \PYG{o}{=} \PYG{n}{a}
+\PYG{n}{Vb}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{o}{/} \PYG{l+m+mf}{6.24150907e18}
+
+\PYG{n}{Nwells}\PYG{o}{=}\PYG{l+m+mi}{30}
+
+
 \PYG{n}{Ttrans} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{n}{Es}\PYG{o}{.}\PYG{n}{size}\PYG{p}{)}
 \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}
 \PYG{k}{for} \PYG{n}{E} \PYG{o+ow}{in} \PYG{n}{Es}\PYG{p}{:}
-    \PYG{n}{klow} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{emath}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{m} \PYG{o}{*} \PYG{n}{E}\PYG{p}{)}
-    \PYG{n}{khigh} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{emath}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{m} \PYG{o}{*} \PYG{p}{(}\PYG{n}{E} \PYG{o}{\PYGZhy{}} \PYG{n}{Vb}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{klow} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{emath}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{m} \PYG{o}{*} \PYG{n}{E}\PYG{o}{/}\PYG{n}{hbar}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{n}{khigh} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{emath}\PYG{o}{.}\PYG{n}{sqrt}\PYG{p}{(}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{m} \PYG{o}{*} \PYG{p}{(}\PYG{n}{E} \PYG{o}{\PYGZhy{}} \PYG{n}{Vb}\PYG{p}{)}\PYG{o}{/}\PYG{n}{hbar}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{)}
     \PYG{n}{res\PYGZus{}mat} \PYG{o}{=} \PYG{n}{DMat}\PYG{p}{(}\PYG{n}{klow}\PYG{p}{,} \PYG{n}{khigh}\PYG{p}{)} \PYG{o}{@} \PYG{n}{PMat}\PYG{p}{(}\PYG{n}{khigh}\PYG{p}{,} \PYG{n}{width\PYGZus{}barrier}\PYG{p}{)} \PYG{o}{@} \PYG{n}{DMat}\PYG{p}{(}\PYG{n}{khigh}\PYG{p}{,} \PYG{n}{klow}\PYG{p}{)} \PYG{o}{@} \PYG{n}{PMat}\PYG{p}{(}\PYG{n}{klow}\PYG{p}{,} \PYG{n}{width\PYGZus{}gap}\PYG{p}{)}
     \PYG{n}{U}\PYG{p}{,} \PYG{n}{V} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eig}\PYG{p}{(}\PYG{n}{res\PYGZus{}mat}\PYG{p}{)}
     \PYG{n}{diag\PYGZus{}res\PYGZus{}mat} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{diag}\PYG{p}{(}\PYG{p}{[}\PYG{n}{U}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}\PYG{n}{U}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}
-    \PYG{n}{res\PYGZus{}mat} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{matrix\PYGZus{}power}\PYG{p}{(}\PYG{n}{diag\PYGZus{}res\PYGZus{}mat}\PYG{p}{,}\PYG{l+m+mi}{20}\PYG{p}{)}
+    \PYG{n}{res\PYGZus{}mat} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{matrix\PYGZus{}power}\PYG{p}{(}\PYG{n}{diag\PYGZus{}res\PYGZus{}mat}\PYG{p}{,}\PYG{n}{Nwells}\PYG{p}{)}
     \PYG{n}{res\PYGZus{}mat} \PYG{o}{=} \PYG{n}{V} \PYG{o}{@} \PYG{n}{res\PYGZus{}mat} \PYG{o}{@} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{inv}\PYG{p}{(}\PYG{n}{V}\PYG{p}{)}
     \PYG{n}{Ttrans}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{res\PYGZus{}mat}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2} \PYG{o}{/} \PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{res\PYGZus{}mat}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}
     \PYG{n}{i} \PYG{o}{=} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}
 
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{Es}\PYG{p}{,} \PYG{n}{Ttrans}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{Es} \PYG{o}{*} \PYG{l+m+mf}{6.24150907e18}\PYG{p}{,} \PYG{n}{Ttrans}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Energy (eV)}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{fontsize}\PYG{o}{=}\PYG{l+m+mi}{16}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transmission}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{fontsize}\PYG{o}{=}\PYG{l+m+mi}{16}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{tick\PYGZus{}params}\PYG{p}{(}\PYG{n}{axis}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{both}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{which}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{major}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{labelsize}\PYG{o}{=}\PYG{l+m+mi}{16}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
 \begin{sphinxVerbatimOutput}
 
 \begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7fe5147d8670\PYGZgt{}]
-\end{sphinxVerbatim}
-
-\noindent\sphinxincludegraphics{{Section6_45_1}.png}
+\noindent\sphinxincludegraphics{{Section6_v2_31_0}.png}
 
 \end{sphinxuseclass}\end{sphinxVerbatimOutput}
 
 \end{sphinxuseclass}
-
-\chapter{Translation Operators and Bloch’s Theorem}
-\label{\detokenize{translation-operator:translation-operators-and-bloch-s-theorem}}\label{\detokenize{translation-operator::doc}}
-
-\chapter{The Kronig\sphinxhyphen{}Penney Model}
-\label{\detokenize{kronig-penney:the-kronig-penney-model}}\label{\detokenize{kronig-penney::doc}}
 \sphinxAtStartPar
-The Kronig\sphinxhyphen{}Penney model is a simple model of electrons moving in a 1D potential. It is very reminiscent of the approach we took in {\hyperref[\detokenize{Section6:test-label}]{\sphinxcrossref{\DUrole{std,std-ref}{Section 6}}}}, although allows us to look at the problem analytically. The approach is as follows: consider the Schrodinger equation
-\label{equation:kronig-penney:d1ab0c3f-7b44-475f-8692-70a6fcb5526b}\begin{equation}
-- \frac{\hbar^2}{2m} \frac{d^2 \psi}{dx^2} + V(x) \psi = E \psi 
-\end{equation}
-\sphinxAtStartPar
-where \$ V(x) \$ is the potential due to a series of Delta functions that are evenly spaced and all have the same strength.
+Let’s compare the transmission peaks to the bound state energy of our finite square well.
 
-\sphinxAtStartPar
-The solutions must satisfy
-\begin{equation}\label{equation:kronig-penney:KP-Econd}
-\begin{split}\cos(qa) = \cos(ka) + u \frac{\sin(ka)}{ka}. \end{split}
-\end{equation}
-\sphinxAtStartPar
-The left\sphinxhyphen{}hand side is clearly restricted \${[}\sphinxhyphen{}1,1{]}\$ while the right\sphinxhyphen{}hand side is not. For the values of \$k\$ that make the right\sphinxhyphen{}hand side have magnitude greater than \$1\$, there will be no allowed energy eigenstates—there will be gaps in the energy spectrum. On the other hand, when \$k\$ takes a value such that the right\sphinxhyphen{}hand side has magnitude less than \$1\$, there will be a valid solution and allowed energy eigenstates—this leads to the formation of energy bands over the range of permissible \$k\$ values.
-
-\begin{sphinxuseclass}{cell}
-\begin{sphinxuseclass}{tag_remove-input}
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-\sphinxAtStartPar
-To investigate this, let’s look at the equation graphically. Since the left\sphinxhyphen{}hand side of {\hyperref[\detokenize{kronig-penney:equation-kp-econd}]{\sphinxcrossref{(3.2)}}} is always in the range \${[}\sphinxhyphen{}1,1{]}\$, we’ll draw two horizontal lines at \$\textbackslash{}pm1\$. We can then plot the right\sphinxhyphen{}hand side for a few different values of \$u\$ and look at where this falls in the range that solutions exist.
-
-\begin{sphinxuseclass}{cell}
-\begin{sphinxuseclass}{tag_remove-input}\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\noindent\sphinxincludegraphics{{kronig-penney_5_0}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}
-\begin{sphinxuseclass}{tag_remove-input}\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\noindent\sphinxincludegraphics{{kronig-penney_6_0}.png}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
-\begin{sphinxuseclass}{cell}
-\begin{sphinxuseclass}{tag_remove-input}\begin{sphinxVerbatimOutput}
-
-\begin{sphinxuseclass}{cell_output}
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-/var/folders/xx/v9dchmf97dd5b8x7jswjw5yc0000gn/T/ipykernel\PYGZus{}53640/4063795205.py:28: RuntimeWarning: invalid value encountered in arccos
-  qsolve.append(np.arccos(np.cos(q[i])+u*np.sin(q[i])/q[i]))
-\end{sphinxVerbatim}
-
-\end{sphinxuseclass}\end{sphinxVerbatimOutput}
-
-\end{sphinxuseclass}
-\end{sphinxuseclass}
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{qsolve}\PYG{p}{,}\PYG{n}{ksolve}\PYG{p}{)}
+\PYG{n}{V\PYGZus{}wells} \PYG{o}{=} \PYG{n}{make\PYGZus{}potential}\PYG{p}{(}\PYG{n}{Nwells}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{beta}\PYG{p}{)}
+\PYG{n}{xs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{1500}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mf}{1e\PYGZhy{}9}
+
+\PYG{n}{Ham}\PYG{o}{=}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{V\PYGZus{}wells}\PYG{p}{)}
+
+\PYG{n}{vals}\PYG{p}{,} \PYG{n}{vecs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigh}\PYG{p}{(}\PYG{n}{Ham}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\end{sphinxuseclass}\end{sphinxVerbatimInput}
+
+\end{sphinxuseclass}
+\sphinxAtStartPar
+Now let’s compare the transmission fraction to the band energies.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Question: How can we easily determine the limits of each energy band? (How does it compare to the number of wells being simulated?}
+
+\begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
+
+\begin{sphinxuseclass}{cell_input}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{band\PYGZus{}limits} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+\PYG{k}{for} \PYG{n}{n} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{band\PYGZus{}limits}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{n}\PYG{o}{*}\PYG{n}{Nwells}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{band\PYGZus{}limits}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{n}\PYG{o}{*}\PYG{n}{Nwells}\PYG{p}{)}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{Es} \PYG{o}{*} \PYG{l+m+mf}{6.24150907e18}\PYG{p}{,} \PYG{n}{Ttrans}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{limegreen}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{p}{[}\PYG{n}{plt}\PYG{o}{.}\PYG{n}{axvline}\PYG{p}{(}\PYG{n}{vals}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{*}\PYG{l+m+mf}{6.24150907e18}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{band\PYGZus{}limits}\PYG{p}{]}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Energy (eV)}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{fontsize}\PYG{o}{=}\PYG{l+m+mi}{16}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Transmission}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{fontsize}\PYG{o}{=}\PYG{l+m+mi}{16}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{tick\PYGZus{}params}\PYG{p}{(}\PYG{n}{axis}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{both}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{which}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{major}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{labelsize}\PYG{o}{=}\PYG{l+m+mi}{16}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlim}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \end{sphinxuseclass}\end{sphinxVerbatimInput}
@@ -880,10 +912,10 @@ To investigate this, let’s look at the equation graphically. Since the left\sp
 
 \begin{sphinxuseclass}{cell_output}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7fd764580700\PYGZgt{}]
+(0.0, 10.0)
 \end{sphinxVerbatim}
 
-\noindent\sphinxincludegraphics{{kronig-penney_8_1}.png}
+\noindent\sphinxincludegraphics{{Section6_v2_35_1}.png}
 
 \end{sphinxuseclass}\end{sphinxVerbatimOutput}
 

@@ -301,7 +301,7 @@ plt.tick_params(axis='both', which='major', labelsize=16)
 # In[12]:
 
 
-V_wells = make_potential(Nwells, a, b, beta)
+V_wells = make_potential(Nwells, a, b, Vb)
 xs = np.linspace(-15, 15, 1500)*1e-9
 
 Ham=make_H(xs,V_wells)

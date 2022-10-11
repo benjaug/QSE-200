@@ -44,5 +44,5 @@ sphinx:
     mathjax_path: https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
     mathjax_config:
       tex2jax:
-        inlineMath: [["$", "$"], ["\\(", "\\)"]]
+        inlineMath: [["$","$"]]
     myst_update_mathjax: false
