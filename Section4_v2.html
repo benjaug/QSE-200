@@ -50,10 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script>window.MathJax = {"tex2jax": {"inlineMath": [["$", "$"]]}}</script>
+    <script>window.MathJax = {"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Section 6: An Intuitive Picture of Band Structure" href="Section6_v2.html" />
@@ -222,51 +220,6 @@ title="Fullscreen mode"
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/benjaug/QSE-200"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/benjaug/QSE-200/issues/new?title=Issue%20on%20page%20%2FSection4_v2.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <div class="menu-dropdown menu-dropdown-download-buttons">
   <button class="headerbtn menu-dropdown__trigger"
       aria-label="Download this page">
@@ -433,9 +386,9 @@ title="Print to PDF"
                 
   <section id="section-4-discrete-variable-representation">
 <h1>Section 4: Discrete Variable Representation<a class="headerlink" href="#section-4-discrete-variable-representation" title="Permalink to this headline">#</a></h1>
-<p>Last week, we studied the connection between position and momentum space using Fourier transforms. We learned that we can work in either “position space” with basis states $\langle x’ | x \rangle = \delta(x-x’)$, or in “momentum space” with basis states $\langle k’ | k \rangle = \delta(k-k’)$. We also showed that these kets are connected by the relation</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3e903f6f-728b-4df2-9358-1b2011c57a21">
-<span class="eqno">(1)<a class="headerlink" href="#equation-3e903f6f-728b-4df2-9358-1b2011c57a21" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>Last week, we studied the connection between position and momentum space using Fourier transforms. We learned that we can work in either “position space” with basis states <span class="math notranslate nohighlight">\(\langle x' | x \rangle = \delta(x-x')\)</span>, or in “momentum space” with basis states <span class="math notranslate nohighlight">\(\langle k' | k \rangle = \delta(k-k')\)</span>. We also showed that these kets are connected by the relation</p>
+<div class="amsmath math notranslate nohighlight" id="equation-781d4ce0-a6c5-4224-a0e6-7c9f70db8d33">
+<span class="eqno">(1)<a class="headerlink" href="#equation-781d4ce0-a6c5-4224-a0e6-7c9f70db8d33" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \langle k | x \rangle = (2\pi)^{-1/2} e^{-i k x}.
 \end{equation}\]</div>
 <p>In this week’s section, we will use what we learned to build and solve matrix representations of the Hamiltonian for arbitrary 1D potentials using a method called the “Discerete Variable Representation” (DVR). This is a method that is widely used in physics and chemistry to solve for the states and energies of potential energy surfaces needed to describe molecular vibrations, chemical reactions, and beyond.</p>
@@ -448,31 +401,31 @@ After this Section you should be able to:</p>
 </ul>
 <section id="motivating-the-sinc-basis-dvr">
 <h2>Motivating the Sinc-Basis DVR<a class="headerlink" href="#motivating-the-sinc-basis-dvr" title="Permalink to this headline">#</a></h2>
-<p>As with previous problems, we’ll first introduce a grid of $N$ equally spaced points on the domain $[x_\text{min}, x_\text{max}]$. The points can be specified as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-616d9bf9-aae3-43d1-8b40-938f6620901f">
-<span class="eqno">(2)<a class="headerlink" href="#equation-616d9bf9-aae3-43d1-8b40-938f6620901f" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>As with previous problems, we’ll first introduce a grid of <span class="math notranslate nohighlight">\(N\)</span> equally spaced points on the domain <span class="math notranslate nohighlight">\([x_\text{min}, x_\text{max}]\)</span>. The points can be specified as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-79306469-150e-4e09-a1be-5f214872759a">
+<span class="eqno">(2)<a class="headerlink" href="#equation-79306469-150e-4e09-a1be-5f214872759a" title="Permalink to this equation">#</a></span>\[\begin{equation}
 x_j = x_\text{min} + (j-1) \Delta x
 \end{equation}\]</div>
 <p>where</p>
-<div class="amsmath math notranslate nohighlight" id="equation-57a6a3a4-9bae-4237-bedf-7fdc1da1b650">
-<span class="eqno">(3)<a class="headerlink" href="#equation-57a6a3a4-9bae-4237-bedf-7fdc1da1b650" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-2f64238c-4a94-415f-9076-9c61d23dc909">
+<span class="eqno">(3)<a class="headerlink" href="#equation-2f64238c-4a94-415f-9076-9c61d23dc909" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \Delta x = \frac{x_\text{max} - x_\text{min}}{N-1}.
 \end{equation}\]</div>
-<p>Next, we want to set up some basis ${|\phi_i\rangle}$ that allows us to express our wavefunction as a superposition of convenient basis functions. Putting this into math based on last week’s section, we want a way to implement the expansion</p>
-<div class="amsmath math notranslate nohighlight" id="equation-30ad070c-8150-4527-a63c-24fdb9c310b5">
-<span class="eqno">(4)<a class="headerlink" href="#equation-30ad070c-8150-4527-a63c-24fdb9c310b5" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>Next, we want to set up some basis <span class="math notranslate nohighlight">\(\{|\phi_i\rangle\}\)</span> that allows us to express our wavefunction as a superposition of convenient basis functions. Putting this into math based on last week’s section, we want a way to implement the expansion</p>
+<div class="amsmath math notranslate nohighlight" id="equation-edc52a9b-18e7-430d-87f3-5bd895fd657c">
+<span class="eqno">(4)<a class="headerlink" href="#equation-edc52a9b-18e7-430d-87f3-5bd895fd657c" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \psi(x) = \langle x | \psi \rangle = \sum_{i=1}^{n} c_i \langle x | \phi_i \rangle = \sum_{i=1}^{n} c_i \phi_i(x).
 \end{equation}\]</div>
 <p>There are many possible reasonable choices of this basis, and there is a vast literature of DVR methods that use different choices (some that can’t even be written as nice analytical functions!). But let’s think about what we would want in a general DVR basis set.</p>
 <p><strong>Question: What nice properties might we want?</strong></p>
 <p><strong>Answer:</strong> Some example of useful properties would be:</p>
 <ul class="simple">
-<li><p>We want the basis to satisfy $\langle x_i | x_j \rangle \propto \delta_{i,j}$</p></li>
+<li><p>We want the basis to satisfy <span class="math notranslate nohighlight">\(\langle x_i | x_j \rangle \propto \delta_{i,j}\)</span></p></li>
 <li><p>It would be nice if the basis functions were “well behaved” so that we can evaluate derivatives, Fourier transforms, etc.</p></li>
 </ul>
 <p>One example of a set of functions that satisfy these desiderata are the <em>sinc functions</em>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-80aa6e3c-bbf0-496b-82c8-0d0abc89c53e">
-<span class="eqno">(5)<a class="headerlink" href="#equation-80aa6e3c-bbf0-496b-82c8-0d0abc89c53e" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-db8077b3-8860-453e-8f89-13fa2dbc7c21">
+<span class="eqno">(5)<a class="headerlink" href="#equation-db8077b3-8860-453e-8f89-13fa2dbc7c21" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \phi_j(x) = \frac{1}{\sqrt{\Delta x}} \frac{\sin[\pi (x-x_j)/\Delta x]}{\pi (x-x_j)/\Delta x} = \frac{1}{\sqrt{\Delta x}} \text{sinc} [\pi (x-x_j)/\Delta x].
 \end{equation}\]</div>
 <p>First of all, let’s explore why these basis functions are useful. It’s best to start this discussion graphically, so let’s use some code to implement the basis and plot the basis functions.</p>
@@ -486,8 +439,8 @@ x_j = x_\text{min} + (j-1) \Delta x
 </div>
 <p>In the space below, we give you some code that defines a grid of x points and a function that implements the sinc-basis. Use these pieces of code to explore the sinc-basis functions and learn about their properties. You are looking to answer questions like the following:</p>
 <ul class="simple">
-<li><p>What is the value of a basis function $\phi_j$ at grid point $x_j$?</p></li>
-<li><p>What is the value of a basis function $\phi_j$ at a grid point $x_{j+1}$? At $x_{j+2}$?</p></li>
+<li><p>What is the value of a basis function <span class="math notranslate nohighlight">\(\phi_j\)</span> at grid point <span class="math notranslate nohighlight">\(x_j\)</span>?</p></li>
+<li><p>What is the value of a basis function <span class="math notranslate nohighlight">\(\phi_j\)</span> at a grid point <span class="math notranslate nohighlight">\(x_{j+1}\)</span>? At <span class="math notranslate nohighlight">\(x_{j+2}\)</span>?</p></li>
 <li><p>In general, how do the basis functions relate to one another?</p></li>
 </ul>
 <div class="cell docutils container">
@@ -509,8 +462,8 @@ x_j = x_\text{min} + (j-1) \Delta x
 </div>
 </div>
 </div>
-<p>There are two useful ways that we can look at these basis functions. First of all, we can plot an example like $\phi_3(x_j)$ to look at the $i=3$ basis function evaluated at each grid point. If we overlay this with a plot of $\phi_3(x)$ evaluated on a much finer grid, we see that the sinc-basis is defined such that a given basis function $\phi_i$ is nonzero at grid point $x_i$, and its oscillations ensure that it passes through zero at every other grid point!</p>
-<p><strong>Question:</strong> Does it matter that the sinc function takes on nonzero values away from the $i\neq j$ grid points?</p>
+<p>There are two useful ways that we can look at these basis functions. First of all, we can plot an example like <span class="math notranslate nohighlight">\(\phi_3(x_j)\)</span> to look at the <span class="math notranslate nohighlight">\(i=3\)</span> basis function evaluated at each grid point. If we overlay this with a plot of <span class="math notranslate nohighlight">\(\phi_3(x)\)</span> evaluated on a much finer grid, we see that the sinc-basis is defined such that a given basis function <span class="math notranslate nohighlight">\(\phi_i\)</span> is nonzero at grid point <span class="math notranslate nohighlight">\(x_i\)</span>, and its oscillations ensure that it passes through zero at every other grid point!</p>
+<p><strong>Question:</strong> Does it matter that the sinc function takes on nonzero values away from the <span class="math notranslate nohighlight">\(i\neq j\)</span> grid points?</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
@@ -547,14 +500,14 @@ x_j = x_\text{min} + (j-1) \Delta x
 <h3>Interpreting the Sinc-Basis<a class="headerlink" href="#interpreting-the-sinc-basis" title="Permalink to this headline">#</a></h3>
 <p><strong>Question:</strong> In light of these plots, how can we interpret the sinc-basis functions as compared to a set of Dirac delta functions?</p>
 <p><strong>Answer:</strong> This is a finite resolution basis that is like the closest possible approximation to a delta function that we can make for a given range on the number of momentum basis functions that our spatial grid can accomodate. As the plots above show, we means this in the sense that these basis states satisfy</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cf130d56-83a6-4358-81ab-a5492c398baf">
-<span class="eqno">(6)<a class="headerlink" href="#equation-cf130d56-83a6-4358-81ab-a5492c398baf" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e2034f23-a7c7-41a7-88e3-9c47de4b9463">
+<span class="eqno">(6)<a class="headerlink" href="#equation-e2034f23-a7c7-41a7-88e3-9c47de4b9463" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \phi_j(x_k) \propto \delta_{k,j},
 \end{equation}\]</div>
 <p>so a given basis function only gives a nonzero contribution to a function at the point at which that basis function is centered.</p>
 <p>The sinc basis has a nice relationship to the Fourier transforms that we discussed last week. In particular, the sinc basis functions can be written as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8e0743d5-9966-415b-bcd4-e9abe6576630">
-<span class="eqno">(7)<a class="headerlink" href="#equation-8e0743d5-9966-415b-bcd4-e9abe6576630" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d3dacc37-bf49-4940-b87e-4f874a515e74">
+<span class="eqno">(7)<a class="headerlink" href="#equation-d3dacc37-bf49-4940-b87e-4f874a515e74" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \phi_j(x) = \frac{\sqrt{\Delta x}}{2\pi} \int_{-\pi/\Delta x}^{\pi/\Delta x} e^{i k(x-x_j)} dk
 \end{equation}\]</div>
 <p><strong>Question:</strong> Can you justify this form qualitatively? How does it relate to Fourier transforms that we studied last week? And why are the limits on the integral those numbers?</p>
@@ -563,34 +516,34 @@ x_j = x_\text{min} + (j-1) \Delta x
 <section id="deriving-the-kinetic-energy-matrix">
 <h2>Deriving the Kinetic Energy Matrix<a class="headerlink" href="#deriving-the-kinetic-energy-matrix" title="Permalink to this headline">#</a></h2>
 <p>Now that we have a useful basis, we can try to solve problems with it. We still need to learn how to express the Hamiltonian in this basis. Since the Hamiltonian is</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2db4dfb3-42a7-4875-b6f7-98f7eeee8a9b">
-<span class="eqno">(8)<a class="headerlink" href="#equation-2db4dfb3-42a7-4875-b6f7-98f7eeee8a9b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-641be3c5-a365-47e4-a699-7b6c5e768aca">
+<span class="eqno">(8)<a class="headerlink" href="#equation-641be3c5-a365-47e4-a699-7b6c5e768aca" title="Permalink to this equation">#</a></span>\[\begin{equation}
 H = -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + V(x)
 \end{equation}\]</div>
-<p>we need to figure out how to express the second derivative operator and the $V(x)$ operator in our chosen basis.</p>
+<p>we need to figure out how to express the second derivative operator and the <span class="math notranslate nohighlight">\(V(x)\)</span> operator in our chosen basis.</p>
 <p>Let’s start with the kinetic energy term. We want to derive a kinetic energy matrix with matrix elements</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6f40d1cc-3ad8-464c-ba4c-fce641c381b3">
-<span class="eqno">(9)<a class="headerlink" href="#equation-6f40d1cc-3ad8-464c-ba4c-fce641c381b3" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3a4eeba7-b034-4004-b48d-d011de2f4d9e">
+<span class="eqno">(9)<a class="headerlink" href="#equation-3a4eeba7-b034-4004-b48d-d011de2f4d9e" title="Permalink to this equation">#</a></span>\[\begin{equation}
 T_{ij} = -\frac{\hbar^2}{2m} \left \langle \phi_i \left\lvert \frac{d^2}{dx^2} \right\rvert \phi_j \right \rangle.
 \end{equation}\]</div>
 <p>It turns out this is where the Fourier transform expression is super helpful. We can go through the following steps:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6bb1a75c-ba24-401f-9df8-2532aa94fc27">
-<span class="eqno">(10)<a class="headerlink" href="#equation-6bb1a75c-ba24-401f-9df8-2532aa94fc27" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-28141e62-2974-47b8-89a5-730efded2525">
+<span class="eqno">(10)<a class="headerlink" href="#equation-28141e62-2974-47b8-89a5-730efded2525" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \int_{-\infty}^{\infty} \phi_i^\ast(x) \frac{d^2}{dx^2} \phi_j(x) dx = \frac{\Delta x}{(2\pi)^2} \int_{-\infty}^{\infty} dx \int_{-\pi/\Delta x}^{\pi/\Delta x} e^{-i k (x-x_i)} dk \int_{-\pi/\Delta x}^{\pi/\Delta x} \left( \frac{d^2}{dx^2} e^{i k' (x-x_j)} \right) dk'
 \end{equation}\]</div>
-<p>Because we’ve expressed the basis function in terms of plane waves, evaluating $\frac{d^2}{dx^2}$ is really easy: it just corresponds to pulling down a factor of $(ik)^2$. That gets us to</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c5c0b553-b2b6-4d56-8447-496edaf1cedb">
-<span class="eqno">(11)<a class="headerlink" href="#equation-c5c0b553-b2b6-4d56-8447-496edaf1cedb" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>Because we’ve expressed the basis function in terms of plane waves, evaluating <span class="math notranslate nohighlight">\(\frac{d^2}{dx^2}\)</span> is really easy: it just corresponds to pulling down a factor of <span class="math notranslate nohighlight">\((ik)^2\)</span>. That gets us to</p>
+<div class="amsmath math notranslate nohighlight" id="equation-73681b08-08e2-4111-872f-1fa7d73e5675">
+<span class="eqno">(11)<a class="headerlink" href="#equation-73681b08-08e2-4111-872f-1fa7d73e5675" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \frac{\Delta x}{(2\pi)^2} \int_{-\pi/\Delta x}^{\pi/\Delta x} (ik)^2 e^{i k (x_i - x_j)} dk.
 \end{equation}\]</div>
 <p>If you work through these integrals, you will find that:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-371fb54b-a84d-4430-b08e-9f79a175079a">
-<span class="eqno">(12)<a class="headerlink" href="#equation-371fb54b-a84d-4430-b08e-9f79a175079a" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-bea09371-086d-4cfd-ab2d-5f918123d19a">
+<span class="eqno">(12)<a class="headerlink" href="#equation-bea09371-086d-4cfd-ab2d-5f918123d19a" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \boxed{T_{i,j=i} = \frac{\hbar^2}{2m \Delta x^2} \frac{\pi^2}{3}}
 \end{equation}\]</div>
 <p>and</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ad71e8bf-aabd-451b-8263-27c9f56da31b">
-<span class="eqno">(13)<a class="headerlink" href="#equation-ad71e8bf-aabd-451b-8263-27c9f56da31b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-08c4c729-ab4c-40ae-ac95-969aab9e97ab">
+<span class="eqno">(13)<a class="headerlink" href="#equation-08c4c729-ab4c-40ae-ac95-969aab9e97ab" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \boxed{T_{i,j \neq i} = \frac{\hbar^2}{2m \Delta x^2} \frac{2 (-1)^{i-j}}{(i-j)^2}}
 \end{equation}\]</div>
 <p><strong>Task:</strong> Now fill in the code below to make a function that builds the kinetic energy operator and the potential energy operator.</p>
@@ -628,17 +581,17 @@ T_{ij} = -\frac{\hbar^2}{2m} \left \langle \phi_i \left\lvert \frac{d^2}{dx^2} \
 </section>
 <section id="deriving-the-potential-energy-matrix">
 <h2>Deriving the Potential Energy Matrix<a class="headerlink" href="#deriving-the-potential-energy-matrix" title="Permalink to this headline">#</a></h2>
-<p>For the potential energy matrix, we need to express $V(x)$ in matrix form. Since $V(x)$ can be expanded as a power series in the position operator $\hat{x}$, let’s first look at the matrix form of $\hat{x}$ itself. We want the matrix elements $x_{ij} = \langle \phi_i | x | \phi_j \rangle$. In other words, we want</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dc5dbfcd-bf9b-4aea-8fc2-609cc9374597">
-<span class="eqno">(14)<a class="headerlink" href="#equation-dc5dbfcd-bf9b-4aea-8fc2-609cc9374597" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>For the potential energy matrix, we need to express <span class="math notranslate nohighlight">\(V(x)\)</span> in matrix form. Since <span class="math notranslate nohighlight">\(V(x)\)</span> can be expanded as a power series in the position operator <span class="math notranslate nohighlight">\(\hat{x}\)</span>, let’s first look at the matrix form of <span class="math notranslate nohighlight">\(\hat{x}\)</span> itself. We want the matrix elements <span class="math notranslate nohighlight">\(x_{ij} = \langle \phi_i | x | \phi_j \rangle\)</span>. In other words, we want</p>
+<div class="amsmath math notranslate nohighlight" id="equation-458d7eca-ae02-41a4-8133-94af0605d3fa">
+<span class="eqno">(14)<a class="headerlink" href="#equation-458d7eca-ae02-41a4-8133-94af0605d3fa" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \int_{-\infty}^{\infty} \phi_i(x)^\ast x \phi_j(x) dx = \frac{\Delta x}{(2\pi)^2} \int_{-\pi/\Delta x}^{\pi/\Delta x} dk \int_{-\pi/\Delta x}^{\pi/\Delta x} dk' e^{ikx_i - ik'x_j} \int_{-\infty}^{\infty} x e^{i x (k'-k)} dx.
 \end{equation}\]</div>
-<p>In the last term, note that we can replace $x$ by $\frac{d}{d(ik’)}$ and then pull the derivative outside of the integral over $x$ (since it doesn’t depend on $x$ anymore).  Working through the integrals after that step, we get to</p>
-<div class="amsmath math notranslate nohighlight" id="equation-069c3e0e-4ea5-4257-8621-8e9ab55d8606">
-<span class="eqno">(15)<a class="headerlink" href="#equation-069c3e0e-4ea5-4257-8621-8e9ab55d8606" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>In the last term, note that we can replace <span class="math notranslate nohighlight">\(x\)</span> by <span class="math notranslate nohighlight">\(\frac{d}{d(ik')}\)</span> and then pull the derivative outside of the integral over <span class="math notranslate nohighlight">\(x\)</span> (since it doesn’t depend on <span class="math notranslate nohighlight">\(x\)</span> anymore).  Working through the integrals after that step, we get to</p>
+<div class="amsmath math notranslate nohighlight" id="equation-21828791-ac00-4992-967e-d21039c15cfe">
+<span class="eqno">(15)<a class="headerlink" href="#equation-21828791-ac00-4992-967e-d21039c15cfe" title="Permalink to this equation">#</a></span>\[\begin{equation}
 x_{ij} = \frac{\Delta x}{2\pi} x_i \int_{-\pi/\Delta x}{\pi/\Delta x} dk' e^{ik'(x_i-x_j)} = x_i \delta_{i,j}.
 \end{equation}\]</div>
-<p><strong>The important conclusion is that $\hat{x}$ is diagonal in this basis!</strong> So the potential energy, which can be expanded in powers of $x$ is also diagonal in this basis! Knowing this, we can just make the potential energy operator by building a diagonal matrix from $V(x)$. The function <code class="docutils literal notranslate"><span class="pre">make_V</span></code> does this, and then the function <code class="docutils literal notranslate"><span class="pre">make_H</span></code> just calls the kinetic and potential energy functions and puts them together.</p>
+<p><strong>The important conclusion is that <span class="math notranslate nohighlight">\(\hat{x}\)</span> is diagonal in this basis!</strong> So the potential energy, which can be expanded in powers of <span class="math notranslate nohighlight">\(x\)</span> is also diagonal in this basis! Knowing this, we can just make the potential energy operator by building a diagonal matrix from <span class="math notranslate nohighlight">\(V(x)\)</span>. The function <code class="docutils literal notranslate"><span class="pre">make_V</span></code> does this, and then the function <code class="docutils literal notranslate"><span class="pre">make_H</span></code> just calls the kinetic and potential energy functions and puts them together.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Function to make the potential energy operator</span>
@@ -693,9 +646,9 @@ x_{ij} = \frac{\Delta x}{2\pi} x_i \int_{-\pi/\Delta x}{\pi/\Delta x} dk' e^{ik'
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fdb1af5e8e0&gt;,
- &lt;matplotlib.lines.Line2D at 0x7fdb1af5e910&gt;,
- &lt;matplotlib.lines.Line2D at 0x7fdb1af5ea30&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fe8590c5e50&gt;,
+ &lt;matplotlib.lines.Line2D at 0x7fe8590c5340&gt;,
+ &lt;matplotlib.lines.Line2D at 0x7fe8590c5fa0&gt;]
 </pre></div>
 </div>
 <img alt="_images/Section4_v2_35_1.png" src="_images/Section4_v2_35_1.png" />
@@ -729,7 +682,7 @@ x_{ij} = \frac{\Delta x}{2\pi} x_i \int_{-\pi/\Delta x}{\pi/\Delta x} dk' e^{ik'
 <img alt="_images/Section4_v2_37_1.png" src="_images/Section4_v2_37_1.png" />
 </div>
 </div>
-<p><strong>Question:</strong> Explain the differences between the case with 50 grid points and the case with 60 grid points. Why is the agreement better to higher $n$ for 60 grid points? Also, why does the agreement seem to always get worse above $n \sim 25$, even if the number of grid points is increased?</p>
+<p><strong>Question:</strong> Explain the differences between the case with 50 grid points and the case with 60 grid points. Why is the agreement better to higher <span class="math notranslate nohighlight">\(n\)</span> for 60 grid points? Also, why does the agreement seem to always get worse above <span class="math notranslate nohighlight">\(n \sim 25\)</span>, even if the number of grid points is increased?</p>
 <section id="comparing-dvr-to-finite-differences">
 <h3>Comparing DVR to Finite Differences<a class="headerlink" href="#comparing-dvr-to-finite-differences" title="Permalink to this headline">#</a></h3>
 <p>Let’s look at the accuracy of the numerical solution as a function of the number of grid points. We can compare this to the results of HW 1 to see how the DVR method does against finite differences.</p>
@@ -816,7 +769,7 @@ x_{ij} = \frac{\Delta x}{2\pi} x_i \int_{-\pi/\Delta x}{\pi/\Delta x} dk' e^{ik'
 </div>
 </div>
 </div>
-<p>Now, make a plot of the relative errors comparing the numerov and DVR methods for the ground state as a function of the grid spacing $\Delta x$.</p>
+<p>Now, make a plot of the relative errors comparing the numerov and DVR methods for the ground state as a function of the grid spacing <span class="math notranslate nohighlight">\(\Delta x\)</span>.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">([</span><span class="mi">20</span><span class="o">/</span><span class="n">Nlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Nlist</span><span class="p">))],</span><span class="n">errorlist</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;DVR method&quot;</span><span class="p">)</span>
