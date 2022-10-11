@@ -8,7 +8,7 @@ logo: logo.png
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: force #off #force
+  execute_notebooks: off #off #force
 
 # Define the name of the latex output file for PDF builds
 latex:
@@ -28,21 +28,22 @@ repository:
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
-  use_issues_button: true
-  use_repository_button: true
+  use_issues_button: false
+  use_repository_button: false
 
 parse:
   myst_enable_extensions:
     # don't forget to list any other extensions you want enabled,
     # including those that are enabled by default!
     - amsmath
+    - dollarmath
 
-# Below stuff was added to make inline math work, 
-# see https://github.com/executablebooks/jupyter-book/issues/1212
+#Below stuff was added to make inline math work, 
+#see https://github.com/executablebooks/jupyter-book/issues/1212
 sphinx:
   config:
     mathjax_path: https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
     mathjax_config:
       tex2jax:
-        inlineMath: [["$","$"]]
+        inlineMath: [["$", "$"], ["\\(", "\\)"]]
     myst_update_mathjax: false

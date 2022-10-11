@@ -47,7 +47,7 @@
 # 
 # First of all, let's explore why these basis functions are useful. It's best to start this discussion graphically, so let's use some code to implement the basis and plot the basis functions.
 
-# In[1]:
+# In[11]:
 
 
 import numpy as np
@@ -59,7 +59,7 @@ import matplotlib.pyplot as plt
 # - What is the value of a basis function $\phi_j$ at a grid point $x_{j+1}$? At $x_{j+2}$?
 # - In general, how do the basis functions relate to one another?
 
-# In[2]:
+# In[12]:
 
 
 # Parameters that we set
@@ -81,7 +81,7 @@ def phi(x,xj):
 
 # **Question:** Does it matter that the sinc function takes on nonzero values away from the $i\neq j$ grid points?
 
-# In[3]:
+# In[13]:
 
 
 plt.axhline(0,color='k')
@@ -95,7 +95,7 @@ plt.grid()
 
 # It can also be useful to look at a series of these sinc functions centered at different grid points. Notice where they all pass through zero, and where each individual basis function doesn't pass through zero.
 
-# In[4]:
+# In[14]:
 
 
 plt.axhline(0,color='k')
@@ -158,7 +158,7 @@ plt.grid()
 
 # **Task:** Now fill in the code below to make a function that builds the kinetic energy operator and the potential energy operator.
 
-# In[5]:
+# In[15]:
 
 
 # work in some convenient units
@@ -166,7 +166,7 @@ hbar = 1
 m = 1
 
 
-# In[6]:
+# In[16]:
 
 
 # Function to make the kinetic energy operator
@@ -200,7 +200,7 @@ def make_T(x):
 # 
 # **The important conclusion is that $\hat{x}$ is diagonal in this basis!** So the potential energy, which can be expanded in powers of $x$ is also diagonal in this basis! Knowing this, we can just make the potential energy operator by building a diagonal matrix from $V(x)$. The function `make_V` does this, and then the function `make_H` just calls the kinetic and potential energy functions and puts them together.
 
-# In[7]:
+# In[17]:
 
 
 # Function to make the potential energy operator
@@ -217,20 +217,20 @@ def make_H(x,Vfunc):
 
 # That was a lot of work to get our Hamiltonian matrix. But now let's see the payoff! We'll see that the DVR code is incredibly accurate, especially compared to the finite differences method that we used before. As always let's test our code by using a harmonic oscillator potential. Let's start with a 20 point grid and see how the calculations do for energies and wavefunctions.
 
-# In[8]:
+# In[18]:
 
 
 xs = np.linspace(-10,10,20)
 
 
-# In[9]:
+# In[19]:
 
 
 def Vharmonic(x):
     return 0.5*x**2
 
 
-# In[10]:
+# In[20]:
 
 
 Ham = make_H(xs,Vharmonic)
@@ -238,7 +238,7 @@ vals, vecs = np.linalg.eigh(Ham)
 vals[0:4]
 
 
-# In[11]:
+# In[21]:
 
 
 plt.plot(xs,vecs[:,0:3])
@@ -246,7 +246,7 @@ plt.plot(xs,vecs[:,0:3])
 
 # Let's look at the accuracy of our solutions as a function of quantum number.
 
-# In[12]:
+# In[22]:
 
 
 plt.figure()
@@ -274,7 +274,7 @@ plt.ylabel("Fractional error")
 
 # In this block, write a function that computes the fractional error in the SHO eigenstates as a function of the number of grid points used.
 
-# In[13]:
+# In[23]:
 
 
 Nlist = np.logspace(1,2.5,10)
@@ -289,7 +289,7 @@ for i in range(len(Nlist)):
 
 # This next block is already written for you-- nothing you need to do!--- to implement and solve the same problem using the Numerov method. The code is taken from the HW1 solutions.
 
-# In[14]:
+# In[24]:
 
 
 # Function to make the A matrix:
@@ -357,7 +357,7 @@ for i in range(len(Nlist)):
 
 # Now, make a plot of the relative errors comparing the numerov and DVR methods for the ground state as a function of the grid spacing $\Delta x$.
 
-# In[15]:
+# In[25]:
 
 
 plt.loglog([20/Nlist[i] for i in range(len(Nlist))],errorlist, label="DVR method")

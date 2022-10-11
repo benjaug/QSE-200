@@ -79,7 +79,7 @@ plt.ylabel("V")
 
 # Next, we set up the DVR code from Section 4 to build the Hamiltonian for our system. This code is the same as we have used previously.
 
-# In[4]:
+# In[68]:
 
 
 hbar = (6.63e-34)/(2*np.pi) # in J.s
@@ -113,7 +113,7 @@ def make_H(x,Vfunc):
 
 # Let's test this on a potential consisting of 12 wells that are fairly deep. After building the potential, we construct the Hamiltonian, evaluate the eigenvectors/eigenvalues, and then plot.
 
-# In[5]:
+# In[ ]:
 
 
 N = 12 # number of wells
@@ -137,14 +137,14 @@ nbound = np.sum([vals<beta])
 
 # We can now plot the numerically computed eigenvalues. Let's overlay these values with the energy levels that would occur if there were no barriers inside the potential---the energy levels of the "wide" finite square well.
 
-# In[6]:
+# In[39]:
 
 
 def analytical_Es(w):
     return [i**2 * np.pi**2 * hbar**2/(2*m*w**2) for i in range(1,nbound+1)]
 
 
-# In[7]:
+# In[40]:
 
 
 plt.plot(vals[:nbound],'.')
@@ -161,7 +161,7 @@ plt.plot(analytical_Es(N*a+(N-2)*b))
 
 # Let's look at the wavefunctions to understand this even better. It will be useful to plot the actual wavefunctions and have some interactivity. The code below makes a plot with a slider that allows you to look at all of the bound eigenstates for a given potential. Once you set the number of wells, their width, and their barriers, you can scan through the eigenstates and look at the behavior.
 
-# In[8]:
+# In[53]:
 
 
 def interact_wavefunction():        
@@ -209,7 +209,7 @@ def interact_wavefunction():
 
 # For example, we can start with 12 wells that are each 0.8 nm wide, 4 eV high, and have a 0.05 nm barrier between them. For this set of parameters, use the interactive plotting to gain some insights about the potential.
 
-# In[9]:
+# In[54]:
 
 
 N = 12 # number of wells
@@ -243,7 +243,7 @@ interact_wavefunction();
 # 
 # The code to implement each of these matrices is copied below.
 
-# In[10]:
+# In[55]:
 
 
 def DMat(k1, k2):
@@ -263,7 +263,7 @@ def PMat(k, L):
 
 # **Question: What do the peaks here represent? What is the physics going on when N=2? N=3? Large N?**
 
-# In[11]:
+# In[248]:
 
 
 a = 0.8e-9
@@ -298,7 +298,7 @@ plt.tick_params(axis='both', which='major', labelsize=16)
 
 # Let's compare the transmission peaks to the bound state energy of our finite square well.
 
-# In[12]:
+# In[249]:
 
 
 V_wells = make_potential(Nwells, a, b, Vb)
@@ -313,7 +313,7 @@ vals, vecs = np.linalg.eigh(Ham)
 # 
 # **Question: How can we easily determine the limits of each energy band? (How does it compare to the number of wells being simulated?**
 
-# In[13]:
+# In[261]:
 
 
 band_limits = [0]
