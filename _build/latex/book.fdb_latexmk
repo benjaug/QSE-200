@@ -1,10 +1,10 @@
 # Fdb version 3
-["makeindex book.idx"] 1665497414 "book.idx" "book.ind" "book" 1665498582
-  "book.idx" 1665498580 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex book.idx"] 1665497414 "book.idx" "book.ind" "book" 1665519501
+  "book.idx" 1665519500 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "book.ilg"
   "book.ind"
-["pdflatex"] 1665498579 "book.tex" "book.pdf" "book" 1665498582
+["pdflatex"] 1665519499 "book.tex" "book.pdf" "book" 1665519501
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -249,15 +249,15 @@
   "Section6_v2_15_0.png" 1665498324 9909 4338efbbc99d4c27bf5560c04d3b2d7a ""
   "Section6_v2_18_1.png" 1665498324 8855 c7fabcad3062b4022e49678f28c6cc31 ""
   "Section6_v2_31_0.png" 1665498324 16805 4c2d07c50d7068d239f912adc33473ae ""
-  "Section6_v2_35_1.png" 1665498324 14429 8ea5f9fb55b7ec17cff28374ea5f9596 ""
-  "book.aux" 1665498581 6308 4a18e4310a605e8deca44447c2ccdbed "pdflatex"
+  "Section6_v2_35_1.png" 1665499906 14214 b2814257ebd2289333383c4fd8d87182 ""
+  "book.aux" 1665519501 6308 78ec852921d4ce7f8a8def745810e329 "pdflatex"
   "book.ind" 1665497414 0 d41d8cd98f00b204e9800998ecf8427e "makeindex book.idx"
-  "book.out" 1665498581 1032 d8caa2de7d17d3825b413473d703a8cd "pdflatex"
-  "book.tex" 1665498577 52122 f4ae143287d2166943a96d30b9b74c11 ""
-  "book.toc" 1665498581 1157 6541b92941c9a697428f751272ee1fd9 "pdflatex"
+  "book.out" 1665519501 1032 d8caa2de7d17d3825b413473d703a8cd "pdflatex"
+  "book.tex" 1665519496 51382 a4b5df9d665a288bd6b98b4faeb7bff6 ""
+  "book.toc" 1665519501 1157 6541b92941c9a697428f751272ee1fd9 "pdflatex"
   "jupyterBook.cls" 1665346504 2892 45f740ebb2c5fdb56520b67c61ea0ad9 ""
   "sphinx.sty" 1631433173 13262 0226aaccc1147ed884a3946fce78a6d2 ""
-  "sphinxhighlight.sty" 1665498577 6679 76d10c62e0f0661410b46f5db6118e26 ""
+  "sphinxhighlight.sty" 1665519496 6679 76d10c62e0f0661410b46f5db6118e26 ""
   "sphinxlatexadmonitions.sty" 1620580596 6238 2d867d769abf3f72abc17ef52adff78b ""
   "sphinxlatexcontainers.sty" 1626023857 901 d3a3a1b7b2547f47ade2499350b5c420 ""
   "sphinxlatexgraphics.sty" 1620580596 4840 a9578332b6f3b35e198751fb632c9b79 ""
@@ -272,7 +272,7 @@
   "sphinxlatexstyletext.sty" 1620580596 5771 a578900e23c0331bf3e01507feb96320 ""
   "sphinxlatextables.sty" 1620580596 21848 2827eb0b11b99b185a8b77317d3e131c ""
   "sphinxmanual.cls" 1631433173 4241 7b0d7a37df7b5715fb0dbd585c52ecdb ""
-  "sphinxmessages.sty" 1665498577 745 3f5fcd6cdd7964ed608767954a8ced6f ""
+  "sphinxmessages.sty" 1665519496 745 3f5fcd6cdd7964ed608767954a8ced6f ""
   "sphinxoptionsgeometry.sty" 1620580596 2061 47bb34b8ed8a78823eb0c886abfb9f4d ""
   "sphinxoptionshyperref.sty" 1626023857 1094 79beb8b8a3f10784f8cce804e0f9d3aa ""
   "sphinxpackagefootnote.sty" 1620580596 13248 e2c77871396275ccf592403f8130f6f2 ""

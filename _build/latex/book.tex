@@ -117,8 +117,8 @@ I am collecting notes/notebooks used in the QSE 200 (Fall 2022) Sections on this
 \chapter{Section 4: Discrete Variable Representation}
 \label{\detokenize{Section4_v2:section-4-discrete-variable-representation}}\label{\detokenize{Section4_v2::doc}}
 \sphinxAtStartPar
-Last week, we studied the connection between position and momentum space using Fourier transforms. We learned that we can work in either “position space” with basis states \$\textbackslash{}langle x’ | x \textbackslash{}rangle = \textbackslash{}delta(x\sphinxhyphen{}x’)\$, or in “momentum space” with basis states \$\textbackslash{}langle k’ | k \textbackslash{}rangle = \textbackslash{}delta(k\sphinxhyphen{}k’)\$. We also showed that these kets are connected by the relation
-\label{equation:Section4_v2:3e903f6f-728b-4df2-9358-1b2011c57a21}\begin{equation}
+Last week, we studied the connection between position and momentum space using Fourier transforms. We learned that we can work in either “position space” with basis states \(\langle x' | x \rangle = \delta(x-x')\), or in “momentum space” with basis states \(\langle k' | k \rangle = \delta(k-k')\). We also showed that these kets are connected by the relation
+\label{equation:Section4_v2:781d4ce0-a6c5-4224-a0e6-7c9f70db8d33}\begin{equation}
 \langle k | x \rangle = (2\pi)^{-1/2} e^{-i k x}.
 \end{equation}
 \sphinxAtStartPar
@@ -146,18 +146,18 @@ Find the eigenvalues and eigenvectors of Hamiltonians for arbtirary potentials u
 \section{Motivating the Sinc\sphinxhyphen{}Basis DVR}
 \label{\detokenize{Section4_v2:motivating-the-sinc-basis-dvr}}
 \sphinxAtStartPar
-As with previous problems, we’ll first introduce a grid of \$N\$ equally spaced points on the domain \${[}x\_\textbackslash{}text\{min\}, x\_\textbackslash{}text\{max\}{]}\$. The points can be specified as
-\label{equation:Section4_v2:616d9bf9-aae3-43d1-8b40-938f6620901f}\begin{equation}
+As with previous problems, we’ll first introduce a grid of \(N\) equally spaced points on the domain \([x_\text{min}, x_\text{max}]\). The points can be specified as
+\label{equation:Section4_v2:79306469-150e-4e09-a1be-5f214872759a}\begin{equation}
 x_j = x_\text{min} + (j-1) \Delta x
 \end{equation}
 \sphinxAtStartPar
 where
-\label{equation:Section4_v2:57a6a3a4-9bae-4237-bedf-7fdc1da1b650}\begin{equation}
+\label{equation:Section4_v2:2f64238c-4a94-415f-9076-9c61d23dc909}\begin{equation}
 \Delta x = \frac{x_\text{max} - x_\text{min}}{N-1}.
 \end{equation}
 \sphinxAtStartPar
-Next, we want to set up some basis \$\{|\textbackslash{}phi\_i\textbackslash{}rangle\}\$ that allows us to express our wavefunction as a superposition of convenient basis functions. Putting this into math based on last week’s section, we want a way to implement the expansion
-\label{equation:Section4_v2:30ad070c-8150-4527-a63c-24fdb9c310b5}\begin{equation}
+Next, we want to set up some basis \(\{|\phi_i\rangle\}\) that allows us to express our wavefunction as a superposition of convenient basis functions. Putting this into math based on last week’s section, we want a way to implement the expansion
+\label{equation:Section4_v2:edc52a9b-18e7-430d-87f3-5bd895fd657c}\begin{equation}
 \psi(x) = \langle x | \psi \rangle = \sum_{i=1}^{n} c_i \langle x | \phi_i \rangle = \sum_{i=1}^{n} c_i \phi_i(x).
 \end{equation}
 \sphinxAtStartPar
@@ -171,7 +171,7 @@ There are many possible reasonable choices of this basis, and there is a vast li
 \begin{itemize}
 \item {} 
 \sphinxAtStartPar
-We want the basis to satisfy \$\textbackslash{}langle x\_i | x\_j \textbackslash{}rangle \textbackslash{}propto \textbackslash{}delta\_\{i,j\}\$
+We want the basis to satisfy \(\langle x_i | x_j \rangle \propto \delta_{i,j}\)
 
 \item {} 
 \sphinxAtStartPar
@@ -181,7 +181,7 @@ It would be nice if the basis functions were “well behaved” so that we can e
 
 \sphinxAtStartPar
 One example of a set of functions that satisfy these desiderata are the \sphinxstyleemphasis{sinc functions}:
-\label{equation:Section4_v2:80aa6e3c-bbf0-496b-82c8-0d0abc89c53e}\begin{equation}
+\label{equation:Section4_v2:db8077b3-8860-453e-8f89-13fa2dbc7c21}\begin{equation}
 \phi_j(x) = \frac{1}{\sqrt{\Delta x}} \frac{\sin[\pi (x-x_j)/\Delta x]}{\pi (x-x_j)/\Delta x} = \frac{1}{\sqrt{\Delta x}} \text{sinc} [\pi (x-x_j)/\Delta x].
 \end{equation}
 \sphinxAtStartPar
@@ -203,11 +203,11 @@ In the space below, we give you some code that defines a grid of x points and a 
 \begin{itemize}
 \item {} 
 \sphinxAtStartPar
-What is the value of a basis function \$\textbackslash{}phi\_j\$ at grid point \$x\_j\$?
+What is the value of a basis function \(\phi_j\) at grid point \(x_j\)?
 
 \item {} 
 \sphinxAtStartPar
-What is the value of a basis function \$\textbackslash{}phi\_j\$ at a grid point \$x\_\{j+1\}\$? At \$x\_\{j+2\}\$?
+What is the value of a basis function \(\phi_j\) at a grid point \(x_{j+1}\)? At \(x_{j+2}\)?
 
 \item {} 
 \sphinxAtStartPar
@@ -238,10 +238,10 @@ In general, how do the basis functions relate to one another?
 
 \end{sphinxuseclass}
 \sphinxAtStartPar
-There are two useful ways that we can look at these basis functions. First of all, we can plot an example like \$\textbackslash{}phi\_3(x\_j)\$ to look at the \$i=3\$ basis function evaluated at each grid point. If we overlay this with a plot of \$\textbackslash{}phi\_3(x)\$ evaluated on a much finer grid, we see that the sinc\sphinxhyphen{}basis is defined such that a given basis function \$\textbackslash{}phi\_i\$ is nonzero at grid point \$x\_i\$, and its oscillations ensure that it passes through zero at every other grid point!
+There are two useful ways that we can look at these basis functions. First of all, we can plot an example like \(\phi_3(x_j)\) to look at the \(i=3\) basis function evaluated at each grid point. If we overlay this with a plot of \(\phi_3(x)\) evaluated on a much finer grid, we see that the sinc\sphinxhyphen{}basis is defined such that a given basis function \(\phi_i\) is nonzero at grid point \(x_i\), and its oscillations ensure that it passes through zero at every other grid point!
 
 \sphinxAtStartPar
-\sphinxstylestrong{Question:} Does it matter that the sinc function takes on nonzero values away from the \$i\textbackslash{}neq j\$ grid points?
+\sphinxstylestrong{Question:} Does it matter that the sinc function takes on nonzero values away from the \(i\neq j\) grid points?
 
 \begin{sphinxuseclass}{cell}
 \begin{sphinxuseclass}{tag_hide-input}\begin{sphinxVerbatimOutput}
@@ -274,7 +274,7 @@ It can also be useful to look at a series of these sinc functions centered at di
 
 \sphinxAtStartPar
 \sphinxstylestrong{Answer:} This is a finite resolution basis that is like the closest possible approximation to a delta function that we can make for a given range on the number of momentum basis functions that our spatial grid can accomodate. As the plots above show, we means this in the sense that these basis states satisfy
-\label{equation:Section4_v2:cf130d56-83a6-4358-81ab-a5492c398baf}\begin{equation}
+\label{equation:Section4_v2:e2034f23-a7c7-41a7-88e3-9c47de4b9463}\begin{equation}
 \phi_j(x_k) \propto \delta_{k,j},
 \end{equation}
 \sphinxAtStartPar
@@ -282,7 +282,7 @@ so a given basis function only gives a nonzero contribution to a function at the
 
 \sphinxAtStartPar
 The sinc basis has a nice relationship to the Fourier transforms that we discussed last week. In particular, the sinc basis functions can be written as follows:
-\label{equation:Section4_v2:8e0743d5-9966-415b-bcd4-e9abe6576630}\begin{equation}
+\label{equation:Section4_v2:d3dacc37-bf49-4940-b87e-4f874a515e74}\begin{equation}
 \phi_j(x) = \frac{\sqrt{\Delta x}}{2\pi} \int_{-\pi/\Delta x}^{\pi/\Delta x} e^{i k(x-x_j)} dk
 \end{equation}
 \sphinxAtStartPar
@@ -293,35 +293,35 @@ The sinc basis has a nice relationship to the Fourier transforms that we discuss
 \label{\detokenize{Section4_v2:deriving-the-kinetic-energy-matrix}}
 \sphinxAtStartPar
 Now that we have a useful basis, we can try to solve problems with it. We still need to learn how to express the Hamiltonian in this basis. Since the Hamiltonian is
-\label{equation:Section4_v2:2db4dfb3-42a7-4875-b6f7-98f7eeee8a9b}\begin{equation}
+\label{equation:Section4_v2:641be3c5-a365-47e4-a699-7b6c5e768aca}\begin{equation}
 H = -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + V(x)
 \end{equation}
 \sphinxAtStartPar
-we need to figure out how to express the second derivative operator and the \$V(x)\$ operator in our chosen basis.
+we need to figure out how to express the second derivative operator and the \(V(x)\) operator in our chosen basis.
 
 \sphinxAtStartPar
 Let’s start with the kinetic energy term. We want to derive a kinetic energy matrix with matrix elements
-\label{equation:Section4_v2:6f40d1cc-3ad8-464c-ba4c-fce641c381b3}\begin{equation}
+\label{equation:Section4_v2:3a4eeba7-b034-4004-b48d-d011de2f4d9e}\begin{equation}
 T_{ij} = -\frac{\hbar^2}{2m} \left \langle \phi_i \left\lvert \frac{d^2}{dx^2} \right\rvert \phi_j \right \rangle.
 \end{equation}
 \sphinxAtStartPar
 It turns out this is where the Fourier transform expression is super helpful. We can go through the following steps:
-\label{equation:Section4_v2:6bb1a75c-ba24-401f-9df8-2532aa94fc27}\begin{equation}
+\label{equation:Section4_v2:28141e62-2974-47b8-89a5-730efded2525}\begin{equation}
 \int_{-\infty}^{\infty} \phi_i^\ast(x) \frac{d^2}{dx^2} \phi_j(x) dx = \frac{\Delta x}{(2\pi)^2} \int_{-\infty}^{\infty} dx \int_{-\pi/\Delta x}^{\pi/\Delta x} e^{-i k (x-x_i)} dk \int_{-\pi/\Delta x}^{\pi/\Delta x} \left( \frac{d^2}{dx^2} e^{i k' (x-x_j)} \right) dk'
 \end{equation}
 \sphinxAtStartPar
-Because we’ve expressed the basis function in terms of plane waves, evaluating \$\textbackslash{}frac\{d\textasciicircum{}2\}\{dx\textasciicircum{}2\}\$ is really easy: it just corresponds to pulling down a factor of \$(ik)\textasciicircum{}2\$. That gets us to
-\label{equation:Section4_v2:c5c0b553-b2b6-4d56-8447-496edaf1cedb}\begin{equation}
+Because we’ve expressed the basis function in terms of plane waves, evaluating \(\frac{d^2}{dx^2}\) is really easy: it just corresponds to pulling down a factor of \((ik)^2\). That gets us to
+\label{equation:Section4_v2:73681b08-08e2-4111-872f-1fa7d73e5675}\begin{equation}
 \frac{\Delta x}{(2\pi)^2} \int_{-\pi/\Delta x}^{\pi/\Delta x} (ik)^2 e^{i k (x_i - x_j)} dk.
 \end{equation}
 \sphinxAtStartPar
 If you work through these integrals, you will find that:
-\label{equation:Section4_v2:371fb54b-a84d-4430-b08e-9f79a175079a}\begin{equation}
+\label{equation:Section4_v2:bea09371-086d-4cfd-ab2d-5f918123d19a}\begin{equation}
 \boxed{T_{i,j=i} = \frac{\hbar^2}{2m \Delta x^2} \frac{\pi^2}{3}}
 \end{equation}
 \sphinxAtStartPar
 and
-\label{equation:Section4_v2:ad71e8bf-aabd-451b-8263-27c9f56da31b}\begin{equation}
+\label{equation:Section4_v2:08c4c729-ab4c-40ae-ac95-969aab9e97ab}\begin{equation}
 \boxed{T_{i,j \neq i} = \frac{\hbar^2}{2m \Delta x^2} \frac{2 (-1)^{i-j}}{(i-j)^2}}
 \end{equation}
 \sphinxAtStartPar
@@ -368,17 +368,17 @@ and
 \section{Deriving the Potential Energy Matrix}
 \label{\detokenize{Section4_v2:deriving-the-potential-energy-matrix}}
 \sphinxAtStartPar
-For the potential energy matrix, we need to express \$V(x)\$ in matrix form. Since \$V(x)\$ can be expanded as a power series in the position operator \$\textbackslash{}hat\{x\}\$, let’s first look at the matrix form of \$\textbackslash{}hat\{x\}\$ itself. We want the matrix elements \$x\_\{ij\} = \textbackslash{}langle \textbackslash{}phi\_i | x | \textbackslash{}phi\_j \textbackslash{}rangle\$. In other words, we want
-\label{equation:Section4_v2:dc5dbfcd-bf9b-4aea-8fc2-609cc9374597}\begin{equation}
+For the potential energy matrix, we need to express \(V(x)\) in matrix form. Since \(V(x)\) can be expanded as a power series in the position operator \(\hat{x}\), let’s first look at the matrix form of \(\hat{x}\) itself. We want the matrix elements \(x_{ij} = \langle \phi_i | x | \phi_j \rangle\). In other words, we want
+\label{equation:Section4_v2:458d7eca-ae02-41a4-8133-94af0605d3fa}\begin{equation}
 \int_{-\infty}^{\infty} \phi_i(x)^\ast x \phi_j(x) dx = \frac{\Delta x}{(2\pi)^2} \int_{-\pi/\Delta x}^{\pi/\Delta x} dk \int_{-\pi/\Delta x}^{\pi/\Delta x} dk' e^{ikx_i - ik'x_j} \int_{-\infty}^{\infty} x e^{i x (k'-k)} dx.
 \end{equation}
 \sphinxAtStartPar
-In the last term, note that we can replace \$x\$ by \$\textbackslash{}frac\{d\}\{d(ik’)\}\$ and then pull the derivative outside of the integral over \$x\$ (since it doesn’t depend on \$x\$ anymore).  Working through the integrals after that step, we get to
-\label{equation:Section4_v2:069c3e0e-4ea5-4257-8621-8e9ab55d8606}\begin{equation}
+In the last term, note that we can replace \(x\) by \(\frac{d}{d(ik')}\) and then pull the derivative outside of the integral over \(x\) (since it doesn’t depend on \(x\) anymore).  Working through the integrals after that step, we get to
+\label{equation:Section4_v2:21828791-ac00-4992-967e-d21039c15cfe}\begin{equation}
 x_{ij} = \frac{\Delta x}{2\pi} x_i \int_{-\pi/\Delta x}{\pi/\Delta x} dk' e^{ik'(x_i-x_j)} = x_i \delta_{i,j}.
 \end{equation}
 \sphinxAtStartPar
-\sphinxstylestrong{The important conclusion is that \$\textbackslash{}hat\{x\}\$ is diagonal in this basis!} So the potential energy, which can be expanded in powers of \$x\$ is also diagonal in this basis! Knowing this, we can just make the potential energy operator by building a diagonal matrix from \$V(x)\$. The function \sphinxcode{\sphinxupquote{make\_V}} does this, and then the function \sphinxcode{\sphinxupquote{make\_H}} just calls the kinetic and potential energy functions and puts them together.
+\sphinxstylestrong{The important conclusion is that \(\hat{x}\) is diagonal in this basis!} So the potential energy, which can be expanded in powers of \(x\) is also diagonal in this basis! Knowing this, we can just make the potential energy operator by building a diagonal matrix from \(V(x)\). The function \sphinxcode{\sphinxupquote{make\_V}} does this, and then the function \sphinxcode{\sphinxupquote{make\_H}} just calls the kinetic and potential energy functions and puts them together.
 
 \begin{sphinxuseclass}{cell}\begin{sphinxVerbatimInput}
 
@@ -456,9 +456,9 @@ array([0.50042652, 1.49199271, 2.54377448, 3.30864454])
 
 \begin{sphinxuseclass}{cell_output}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7fdb1af5e8e0\PYGZgt{},
- \PYGZlt{}matplotlib.lines.Line2D at 0x7fdb1af5e910\PYGZgt{},
- \PYGZlt{}matplotlib.lines.Line2D at 0x7fdb1af5ea30\PYGZgt{}]
+[\PYGZlt{}matplotlib.lines.Line2D at 0x7fe8590c5e50\PYGZgt{},
+ \PYGZlt{}matplotlib.lines.Line2D at 0x7fe8590c5340\PYGZgt{},
+ \PYGZlt{}matplotlib.lines.Line2D at 0x7fe8590c5fa0\PYGZgt{}]
 \end{sphinxVerbatim}
 
 \noindent\sphinxincludegraphics{{Section4_v2_35_1}.png}
@@ -484,7 +484,7 @@ Text(0, 0.5, \PYGZsq{}Fractional error\PYGZsq{})
 \end{sphinxuseclass}
 \end{sphinxuseclass}
 \sphinxAtStartPar
-\sphinxstylestrong{Question:} Explain the differences between the case with 50 grid points and the case with 60 grid points. Why is the agreement better to higher \$n\$ for 60 grid points? Also, why does the agreement seem to always get worse above \$n \textbackslash{}sim 25\$, even if the number of grid points is increased?
+\sphinxstylestrong{Question:} Explain the differences between the case with 50 grid points and the case with 60 grid points. Why is the agreement better to higher \(n\) for 60 grid points? Also, why does the agreement seem to always get worse above \(n \sim 25\), even if the number of grid points is increased?
 
 
 \subsection{Comparing DVR to Finite Differences}
@@ -507,7 +507,7 @@ This next block is already written for you– nothing you need to do!— to impl
 \end{sphinxuseclass}
 \end{sphinxuseclass}
 \sphinxAtStartPar
-Now, make a plot of the relative errors comparing the numerov and DVR methods for the ground state as a function of the grid spacing \$\textbackslash{}Delta x\$.
+Now, make a plot of the relative errors comparing the numerov and DVR methods for the ground state as a function of the grid spacing \(\Delta x\).
 
 \begin{sphinxuseclass}{cell}
 \begin{sphinxuseclass}{tag_hide-input}\begin{sphinxVerbatimOutput}
@@ -574,7 +574,7 @@ Explain the connection between bound state and scattering methods of characteriz
 \section{Qualitative Solution}
 \label{\detokenize{Section6_v2:qualitative-solution}}
 \sphinxAtStartPar
-Before we dive into numerical solutions, let’s think about the following qualitative situation: we have a square well of width \$L\$. Within the well, we place a series of barriers that partition the square well into \$N\$ narrower wells with width \$a\$. Each barrier has height \$\textbackslash{}beta\$ and thickness \$b\$.
+Before we dive into numerical solutions, let’s think about the following qualitative situation: we have a square well of width \(L\). Within the well, we place a series of barriers that partition the square well into \(N\) narrower wells with width \(a\). Each barrier has height \(\beta\) and thickness \(b\).
 
 \sphinxAtStartPar
 Let’s start by considering the barriers to be infinitely thin (basically, delta functions). Now, as a class, let’s work through the following questions:
@@ -582,15 +582,15 @@ Let’s start by considering the barriers to be infinitely thin (basically, delt
 \sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
 \item {} 
 \sphinxAtStartPar
-What are the energies and eigenstates of the wide well if the barriers are not present (\$\textbackslash{}beta=0\$)?
+What are the energies and eigenstates of the wide well if the barriers are not present (\(\beta=0\))?
 
 \item {} 
 \sphinxAtStartPar
-When \$\textbackslash{}beta \textbackslash{}rightarrow \textbackslash{}infty\$, what should the wavefunctions look like?
+When \(\beta \rightarrow \infty\), what should the wavefunctions look like?
 
 \item {} 
 \sphinxAtStartPar
-As we increase \$\textbackslash{}beta\$ to take on finite values, what will happen to the wavefunctions? How will they look? What will their ordering be like relative to the cases we just described?
+As we increase \(\beta\) to take on finite values, what will happen to the wavefunctions? How will they look? What will their ordering be like relative to the cases we just described?
 
 \item {} 
 \sphinxAtStartPar
@@ -609,23 +609,23 @@ First we’ll write some functions that build our model potential. Our model inc
 \begin{itemize}
 \item {} 
 \sphinxAtStartPar
-\$L\$: width of the enclosing square well
+\(L\): width of the enclosing square well
 
 \item {} 
 \sphinxAtStartPar
-\$a\$: width of each narrow square well
+\(a\): width of each narrow square well
 
 \item {} 
 \sphinxAtStartPar
-\$b\$: thickness of each internal barrier
+\(b\): thickness of each internal barrier
 
 \item {} 
 \sphinxAtStartPar
-\$N\$: number of narrow square wells
+\(N\): number of narrow square wells
 
 \item {} 
 \sphinxAtStartPar
-\$\textbackslash{}beta\$: heigh of each barrier
+\(\beta\): heigh of each barrier
 
 \end{itemize}
 
@@ -715,7 +715,7 @@ We can now plot the numerically computed eigenvalues. Let’s overlay these valu
 
 \begin{sphinxuseclass}{cell_output}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-[\PYGZlt{}matplotlib.lines.Line2D at 0x7f8b70556e80\PYGZgt{}]
+[\PYGZlt{}matplotlib.lines.Line2D at 0x7fb5d3d27790\PYGZgt{}]
 \end{sphinxVerbatim}
 
 \noindent\sphinxincludegraphics{{Section6_v2_18_1}.png}
@@ -781,7 +781,7 @@ interactive(children=(FloatSlider(value=0.0, description=\PYGZsq{}Eigenstate\PYG
 
 \end{sphinxuseclass}
 \sphinxAtStartPar
-\sphinxstylestrong{Question: Using the interactive graphs above, how does the behavior of each wavefunction within a single band conform to our expectations from Bloch’s theorem? How do the wavefunctions differ from band to band? What do you expect to happen as \$N \textbackslash{}rightarrow \textbackslash{}infty\$?}
+\sphinxstylestrong{Question: Using the interactive graphs above, how does the behavior of each wavefunction within a single band conform to our expectations from Bloch’s theorem? How do the wavefunctions differ from band to band? What do you expect to happen as \(N \rightarrow \infty\)?}
 
 
 \section{Transfer matrix approach}
@@ -873,7 +873,7 @@ Let’s compare the transmission peaks to the bound state energy of our finite s
 
 \begin{sphinxuseclass}{cell_input}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{V\PYGZus{}wells} \PYG{o}{=} \PYG{n}{make\PYGZus{}potential}\PYG{p}{(}\PYG{n}{Nwells}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{beta}\PYG{p}{)}
+\PYG{n}{V\PYGZus{}wells} \PYG{o}{=} \PYG{n}{make\PYGZus{}potential}\PYG{p}{(}\PYG{n}{Nwells}\PYG{p}{,} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{Vb}\PYG{p}{)}
 \PYG{n}{xs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{1500}\PYG{p}{)}\PYG{o}{*}\PYG{l+m+mf}{1e\PYGZhy{}9}
 
 \PYG{n}{Ham}\PYG{o}{=}\PYG{n}{make\PYGZus{}H}\PYG{p}{(}\PYG{n}{xs}\PYG{p}{,}\PYG{n}{V\PYGZus{}wells}\PYG{p}{)}

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.25)  11 OCT 2022 10:29
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.25)  11 OCT 2022 16:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1771,10 +1771,10 @@ Package rerunfilecheck Info: File `book.out' has not changed.
 Here is how much of TeX's memory you used:
  42984 strings out of 476257
  991820 string characters out of 5811149
- 1608813 words of memory out of 5000000
+ 1609813 words of memory out of 5000000
  62843 multiletter control sequences out of 15000+600000
  408906 words of font info for 106 fonts, out of 8000000 for 9000
  1349 hyphenation exceptions out of 8191
- 99i,12n,115p,798b,2262s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 99i,12n,115p,798b,2258s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on book.pdf (22 pages).
