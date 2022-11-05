@@ -226,7 +226,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Last week, we studied the connection between position and momentum space using Fourier transforms. We learned that we can work in either “position space” with basis states <span class="math inline">\(\langle x' | x \rangle = \delta(x-x')\)</span>, or in “momentum space” with basis states <span class="math inline">\(\langle k' | k \rangle = \delta(k-k')\)</span>. We also showed that these kets are connected by the relation <span class="math display">\[\begin{equation}
 \langle k | x \rangle = (2\pi)^{-1/2} e^{-i k x}.
 \end{equation}\]</span> In this week’s section, we will use what we learned to build and solve matrix representations of the Hamiltonian for arbitrary 1D potentials using a method called the “Discerete Variable Representation” (DVR). This is a method that is widely used in physics and chemistry to solve for the states and energies of potential energy surfaces needed to describe molecular vibrations, chemical reactions, and beyond.</p>
-<p><strong>Learning Goals:</strong> After this Section you should be able to: - Understand when it is more natural to work in a “position” vs.&nbsp;“momentum” basis - Use the sinc basis to express the Hamiltonian for an arbitrary 1D potential - Find the eigenvalues and eigenvectors of Hamiltonians for arbtirary potentials using the discrete variable representation</p>
+<p><strong>Learning Goals:</strong></p>
+<p>After this Section you should be able to:</p>
+<ul>
+<li>Understand when it is more natural to work in a “position” vs.&nbsp;“momentum” basis</li>
+<li>Use the sinc basis to express the Hamiltonian for an arbitrary 1D potential</li>
+<li>Find the eigenvalues and eigenvectors of Hamiltonians for arbtirary potentials using the discrete variable representation</li>
+</ul>
 <section id="motivating-the-sinc-basis-dvr" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="motivating-the-sinc-basis-dvr"><span class="header-section-number">2.1</span> Motivating the Sinc-Basis DVR</h2>
 <p>As with previous problems, we’ll first introduce a grid of <span class="math inline">\(N\)</span> equally spaced points on the domain <span class="math inline">\([x_\text{min}, x_\text{max}]\)</span>. The points can be specified as <span class="math display">\[\begin{equation}
