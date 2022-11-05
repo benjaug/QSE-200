@@ -1,0 +1,30 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "QSE 200 Sections"
+  image: "cover.png"
+  author: "Ben Augenbraun"
+  date: "11/5/2022"
+  chapters:
+    - index.qmd
+    - Section2.ipynb
+    - Section4.ipynb
+    - Section6.ipynb
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: spacelab
+  pdf:
+    documentclass: scrreprt
+    cite-method: natbib
+    natbiboptions: numbers
+    biblio-style: unsrtnat
+    
+
+
+
