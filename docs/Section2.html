@@ -203,10 +203,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#crank-nicolson-method" id="toc-crank-nicolson-method" class="nav-link" data-scroll-target="#crank-nicolson-method"><span class="toc-section-number">1.3</span>  Crank-Nicolson Method</a></li>
   <li><a href="#task-1-write-functions-to-propagate-a-gaussian-wavepacket" id="toc-task-1-write-functions-to-propagate-a-gaussian-wavepacket" class="nav-link" data-scroll-target="#task-1-write-functions-to-propagate-a-gaussian-wavepacket"><span class="toc-section-number">1.4</span>  Task 1: Write functions to propagate a Gaussian wavepacket</a></li>
   <li><a href="#an-aside-on-animations" id="toc-an-aside-on-animations" class="nav-link" data-scroll-target="#an-aside-on-animations"><span class="toc-section-number">1.5</span>  An aside on animations</a></li>
-  <li><a href="#task-2-simulate-evolution-in-a-potential" id="toc-task-2-simulate-evolution-in-a-potential" class="nav-link" data-scroll-target="#task-2-simulate-evolution-in-a-potential"><span class="toc-section-number">1.6</span>  Task 2: Simulate evolution in a potential</a></li>
-  <li><a href="#project-1-simulating-a-quantum-mass-on-a-spring" id="toc-project-1-simulating-a-quantum-mass-on-a-spring" class="nav-link" data-scroll-target="#project-1-simulating-a-quantum-mass-on-a-spring"><span class="toc-section-number">1.7</span>  Project 1: Simulating a quantum mass on a spring</a></li>
-  <li><a href="#option-2-scattering-from-square-and-sech-squared-potential-wells" id="toc-option-2-scattering-from-square-and-sech-squared-potential-wells" class="nav-link" data-scroll-target="#option-2-scattering-from-square-and-sech-squared-potential-wells"><span class="toc-section-number">1.8</span>  Option 2: Scattering from Square and Sech-Squared Potential Wells</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="toc-section-number">1.9</span>  Conclusion</a></li>
+  <li><a href="#task-2-simulate-evolution-in-a-potential" id="toc-task-2-simulate-evolution-in-a-potential" class="nav-link" data-scroll-target="#task-2-simulate-evolution-in-a-potential"><span class="toc-section-number">1.6</span>  Task 2: Simulate evolution in a potential</a>
+  <ul class="collapse">
+  <li><a href="#project-1-simulating-a-quantum-mass-on-a-spring" id="toc-project-1-simulating-a-quantum-mass-on-a-spring" class="nav-link" data-scroll-target="#project-1-simulating-a-quantum-mass-on-a-spring"><span class="toc-section-number">1.6.1</span>  Project 1: Simulating a quantum mass on a spring</a></li>
+  <li><a href="#project-2-scattering-from-square-and-sech-squared-potential-wells" id="toc-project-2-scattering-from-square-and-sech-squared-potential-wells" class="nav-link" data-scroll-target="#project-2-scattering-from-square-and-sech-squared-potential-wells"><span class="toc-section-number">1.6.2</span>  Project 2: Scattering from Square and Sech-Squared Potential Wells</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="toc-section-number">1.7</span>  Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -1404,9 +1406,8 @@ if (IPython.notebook.kernel !== null) {
 <h2 data-number="1.6" class="anchored" data-anchor-id="task-2-simulate-evolution-in-a-potential"><span class="header-section-number">1.6</span> Task 2: Simulate evolution in a potential</h2>
 <p>Once it seems like your propagation code is working, let’s use it to learn some physics!</p>
 <p>We’ll look at some more interesting cases, particles moving in actual potentials. For the rest of this Section, you’ll work in groups of 2-3 people and each group will choose one of the examples below. At the end of Section, each group will report back to the rest of the class about what they found.</p>
-</section>
-<section id="project-1-simulating-a-quantum-mass-on-a-spring" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="project-1-simulating-a-quantum-mass-on-a-spring"><span class="header-section-number">1.7</span> Project 1: Simulating a quantum mass on a spring</h2>
+<section id="project-1-simulating-a-quantum-mass-on-a-spring" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="project-1-simulating-a-quantum-mass-on-a-spring"><span class="header-section-number">1.6.1</span> Project 1: Simulating a quantum mass on a spring</h3>
 <p>This section is set up to simulate a Gaussian wavepacket evolving in a harmonic potential, <span class="math inline">\(V(x) = \frac{1}{2} \omega^2 x^2\)</span>. In the classical case, we know that this gives rise to simple harmonic motion with <span class="math inline">\(x(t) \sim cos(\omega t + \varphi)\)</span>. Here you will write code to see if the same thing happens in the quantum world, or to what extent things differ…</p>
 <p>And you’ll also need to define a potential <span class="math inline">\(V(x)\)</span> for the particle to evolve in. Define that by filling in the code block below. To pick a reasonable value for <span class="math inline">\(\omega\)</span>, remember that the value of <span class="math inline">\(E_0\)</span> is tied to the value of <span class="math inline">\(k_0\)</span> and we can’t simulate momenta with values greater than <span class="math inline">\(\sim 2\pi/2\Delta x\)</span>. Try to think about what that means for how you should set <span class="math inline">\(\omega\)</span> such that it is compatible with your previously chosen simulation parameters…</p>
 <div class="cell" data-execution_count="12">
@@ -2403,8 +2404,8 @@ if (IPython.notebook.kernel !== null) {
 </div>
 <p>Once you have a feeling for how the particle evolves, try <em>changing</em> the potential, for example looking at a quartic (<span class="math inline">\(\propto x^4\)</span>) potential. How does the evolution of a particle in this potential differ from that of a harmonic potential?</p>
 </section>
-<section id="option-2-scattering-from-square-and-sech-squared-potential-wells" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="option-2-scattering-from-square-and-sech-squared-potential-wells"><span class="header-section-number">1.8</span> Option 2: Scattering from Square and Sech-Squared Potential Wells</h2>
+<section id="project-2-scattering-from-square-and-sech-squared-potential-wells" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="project-2-scattering-from-square-and-sech-squared-potential-wells"><span class="header-section-number">1.6.2</span> Project 2: Scattering from Square and Sech-Squared Potential Wells</h3>
 <p>An unusual aspect of quantum mechanics is that there can be reflection of a particle even from a potential <em>well</em>. Here, you will simulate this effect by comparing the scattering of a particle crashing into a square barrier (with positive energy) and a square well (with negative energy). You’ll also compare your findings to a particularly interesting potential well, <span class="math inline">\(V(x) \sim - \text{sech}(x)^2\)</span> and uncover an unusual property of this type of well.</p>
 <p>First of all, write some code that defines a square well and the sech-squared well. Note that numpy doesn’t have the sech function implemented, but it does have a <code>cosh</code> function.</p>
 <p>To choose your well depths, pick something that has a width of <span class="math inline">\(\sim 5a - 50a\)</span> and a depth (or height) that is a couple units of <span class="math inline">\(E_0\)</span>. Generate vectors <code>V</code> below for the different potentials you want to simulate. Plot them with a y-axis normalized by <span class="math inline">\(E_0\)</span> to make sure they are a reasonable scale. (And think about why we need to choose this carefully—hint, think about the simulation parameters we have set.)</p>
@@ -4386,8 +4387,9 @@ if (IPython.notebook.kernel !== null) {
 </div>
 </div>
 </section>
-<section id="conclusion" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">1.9</span> Conclusion</h2>
+</section>
+<section id="conclusion" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">1.7</span> Conclusion</h2>
 <p>After completing this Section, you’ve now learned about numerical solutions of the TDSE, the behavior of a wavepacket in free space, and the behavior of wavepackets evolving in a couple different potentials. You can now use your code to simulate wavepackets interacting with arbitrary potentials! You will use code like what you wrote here to solve problems on HW 2 in which you study the interactions of wavepackets with multi-well potentials as a simple model of particles moving through crystals.</p>
 
 
