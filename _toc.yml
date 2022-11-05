@@ -1,8 +1,0 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
-format: jb-book
-root: home
-chapters:
-  - file: Section4_v2
-  - file: Section6_v2

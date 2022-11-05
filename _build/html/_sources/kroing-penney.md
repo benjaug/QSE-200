@@ -1,1 +1,0 @@
-# The Kronig-Penney Model
